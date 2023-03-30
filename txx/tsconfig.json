@@ -1,0 +1,71 @@
+{
+  "compilerOptions": {
+    // 编译生成的目标语言版本
+    "target": "esnext",
+    // 使用的模块标准
+    "module": "esnext",
+    // 模板解析策略：node和classic
+    "moduleResolution": "node",
+    // 严格模式
+    "strict": true,
+    // 禁止包含库文件，为true的时候会忽略下面的lib配置项嗷
+    "noLib": false,
+    // 是否强制代码中使用的模块文件名必须和文件系统中的文件名保持大小写一致
+    "forceConsistentCasingInFileNames": true,
+    // 允许从没有默认导出的文件导入
+    "allowSyntheticDefaultImports": true,
+    // 用来指定是否使用函数参数双向协变检查（双向检查
+    "strictFunctionTypes": false,
+    // jsx模式，一共三种
+    "jsx": "preserve",
+    // 模块解析baseUrl，当引用绝对路径的时候会用baseurl去解析路径，就跟api的baseurl差不多用法
+    "baseUrl": ".",
+    // 是否允许编译JS文件
+    "allowJs": true,
+    // 编译时是否生成.map文件
+    "sourceMap": true,
+    // 通过为导入内容创建命名空间，实现CommonJS和ES模块之间的互操作性（不太明白
+    "esModuleInterop": true,
+    // 允许导入json文件
+    "resolveJsonModule": true,
+    // 检查是否有定义但是未使用的变量
+    "noUnusedLocals": true,
+    // 检查函数中是否有未使用的参数
+    "noUnusedParameters": true,
+    // 用于指定是否启用实验性的装饰器特性
+    "experimentalDecorators": true,
+    // 用于指定要包含在编译中的库文件
+    "lib": ["dom", "esnext"],
+    // 不允许变量或函数参数具有隐式any，为false是允许隐式any的
+    "noImplicitAny": false,
+    // 跳过声明文件的检查，提高编译效率，但是准确性就寄了嗷，说不定俩声明里对同一东西的定义不一样捏
+    "skipLibCheck": true,
+    // 用来指定需要包含的模块，只有在这里列出的声明文件才会被加载进来
+    "types": ["vite/client"],
+    // 编译之后注释是否删除
+    "removeComments": true,
+    // 路径映射，跟baseurl差不多，但是优先级低于baseurl
+    "paths": {
+      "/@/*": ["src/*"],
+      "/#/*": ["types/*"],
+      "/domain/*": ["src/modules/*"]
+    }
+  },
+  // 指定需要编译的文件，否则默认当前目录下除了exclude之外的所有.ts, .d.ts,.tsx 文件
+  "include": [
+    "tests/**/*.ts",
+    "src/**/*.ts",
+    "modules/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "types/**/*.d.ts",
+    "types/**/*.ts",
+    "build/**/*.ts",
+    "build/**/*.d.ts",
+    "mock/**/*.ts",
+    "vite.config.ts"
+  ],
+  // 指定不需要编译的文件
+  "exclude": ["node_modules", "tests/server/**/*.ts", "dist", "**/*.js"]
+}
