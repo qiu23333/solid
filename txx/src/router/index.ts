@@ -1,22 +1,37 @@
 import { App } from 'vue';
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
-const routes: RouteRecordRaw[] = [{
-  path: '/',
+const routes: RouteRecordRaw[] = [
+  {
+    path:'/',
+    name:'Login',
+    component:()=>import('../views/login.vue')
+  },
+  
+  {
+  path: '/home',
   name: 'Home',
-  // component: () => import('../components/HelloWorld.vue')
-  component: () => import('../views/HelloWorld.vue')
+  component: () => import('../views/home.vue'),
+  children:[
+
+    {
+      path:'/customer',
+      name:'customer',
+      component:()=>import('../modules/customer/index.vue')
+    },
+    {
+      path: '/station',
+      name: 'station',
+      component: () => import('../modules/station/index.vue'),
+    },
+    {
+        path: '/equipment',
+        name: 'equipment',
+        component: () => import('../modules/equipment/index.vue'),
+      }
+  ]
 },
-{
-  path: '/station',
-  name: 'station',
-  component: () => import('../modules/station/index.vue'),
-},
-{
-    path: '/equipment',
-    name: 'equipment',
-    component: () => import('../modules/equipment/index.vue'),
-  }
+
 ]
 const router = createRouter({
   history: createWebHashHistory(), // 路由模式

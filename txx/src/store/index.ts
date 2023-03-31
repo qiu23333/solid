@@ -8,7 +8,7 @@ import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 const store = createPinia();
 store.use(piniaPluginPersistedstate);
 
-// 更新store？
+// store的装载函数
 export function setupStore(app: App<Element>) {
   app.use(store);
 }

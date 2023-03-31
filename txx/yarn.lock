@@ -1277,8 +1277,15 @@ vdirs@^0.1.4, vdirs@^0.1.8:
 
 vfonts@^0.0.3:
   version "0.0.3"
-  resolved "https://registry.npmjs.org/vfonts/-/vfonts-0.0.3.tgz"
+  resolved "https://registry.yarnpkg.com/vfonts/-/vfonts-0.0.3.tgz#999d66fecea18efee3f2b966c81101ae8ce01a29"
   integrity sha512-nguyw8L6Un8eelg1vQ31vIU2ESxqid7EYmy8V+MDeMaHBqaRSkg3dTBToC1PR00D89UzS/SLkfYPnx0Wf23IQQ==
+
+vicons@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/vicons/-/vicons-0.0.1.tgz#c496818e79943a8fd94b42955cbf619ace2b314f"
+  integrity sha512-suYeiVqw/q+ijWBlsGP5vhTUphRqLzCLZKqBHK4iuzlOmP1omKWDWQd+da7rDZU7dyPD5TTV9MXTLCxQt3d7zQ==
+  dependencies:
+    vue "^3.0.2"
 
 vite@^4.2.0:
   version "4.2.1"
@@ -1311,7 +1318,7 @@ vue-router@^4.1.6:
   dependencies:
     "@vue/devtools-api" "^6.4.5"
 
-vue@^3.2.47:
+vue@^3.0.2, vue@^3.2.47:
   version "3.2.47"
   resolved "https://registry.npmjs.org/vue/-/vue-3.2.47.tgz"
   integrity sha512-60188y/9Dc9WVrAZeUVSDxRQOZ+z+y5nO2ts9jWXSTkMvayiWxCWOWtBQoYjLeccfXkiiPZWAHcV+WTPhkqJHQ==
