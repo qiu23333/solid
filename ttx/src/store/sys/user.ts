@@ -1,6 +1,15 @@
 import { defineStore } from "pinia";
 import { reactive } from "vue";
-import request from "../../api";
+
+export interface LoginParams {
+    grantType: string;
+    username: string;
+    password: string;
+    mobile: string;
+    captcha: string;
+    code: string;
+    verification?: string;
+  }
 
 export const userStore=defineStore({
     id:'user',
@@ -24,16 +33,9 @@ export const userStore=defineStore({
     },
     actions:{
         login(){
-            request.post(
-                '/system/login',
-                parmas:{
-
-                }
-                ).then(res=>{
-                console.log(res.data)
-            })
+            
             console.log("登录捏")
-            // this.userInfo.isLogin = true
+            this.userInfo.isLogin = true
         },
         logout(){
             console.log("下线咯")

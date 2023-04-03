@@ -9,12 +9,9 @@
 
 <script setup lang="ts">
 import { NButton } from 'naive-ui'
-import request from '../../api'
 
     function apitest(){
-        request.post('/system/login').then(res=>{
-            console.log(res.data)
-        })
+
     }
     // onMounted(() => {
     //     // apitest()
