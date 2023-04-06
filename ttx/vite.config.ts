@@ -9,7 +9,11 @@ import Components from 'unplugin-vue-components/vite'
 import VueSetupExtend from 'vite-plugin-vue-setup-extend'
 // naive ui自动导入
 import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
+import { resolve } from 'path'
 
+function pathResolve(dir: string) {
+	return resolve(process.cwd(), '.', dir);
+  }
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
@@ -37,4 +41,27 @@ export default defineConfig({
 		}),
 		VueSetupExtend(),
 	],
+	resolve: {
+		alias: [
+		  {
+			find: 'vue-i18n',
+			replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
+		  },
+		  // /@/xxxx => src/xxxx
+		  {
+			find: /\/@\//,
+			replacement: pathResolve('src') + '/',
+		  },
+		  // /#/xxxx => types/xxxx
+		  {
+			find: /\/#\//,
+			replacement: pathResolve('types') + '/',
+		  },
+		  // /#/xxxx => types/xxxx
+		  {
+			find: /\/domain\//,
+			replacement: pathResolve('src/modules') + '/',
+		  },
+		],
+	  },
 })

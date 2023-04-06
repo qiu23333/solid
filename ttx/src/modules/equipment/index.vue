@@ -1,23 +1,13 @@
-<template>
-    <div>
-        这里是equipment
-    </div>
-    <div>
-        <n-button @click="apitest" class="w-20 h-10 antialiased italic text-center bg-green-200 ">apitest</n-button>
-    </div>
+<template >
+  <div class="grid grid-cols-1 gap-x-10 gap-y-10">
+    <top />
+    <Ebody />
+  </div>
 </template>
 
 <script setup lang="ts">
-import { NButton } from 'naive-ui'
-
-    function apitest(){
-
-    }
-    // onMounted(() => {
-    //     // apitest()
-    // }),
+import top from "./top/top.vue"
+import Ebody from "./body/body.vue"
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
