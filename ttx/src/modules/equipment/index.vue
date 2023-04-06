@@ -6,8 +6,8 @@
 </template>
 
 <script setup lang="ts">
-import top from "./top/top.vue"
-import Ebody from "./body/body.vue"
+import top from "./src/top/top.vue"
+import Ebody from "./src/body/body.vue"
 </script>
 
 <style scoped></style>
