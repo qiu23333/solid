@@ -1,5 +1,5 @@
 <template >
-  <div class="grid grid-cols-1 gap-x-10 gap-y-10">
+  <div class="grid grid-cols-1 bg-gray-100 gap-x-10 gap-y-10">
     <top />
     <Ebody />
   </div>

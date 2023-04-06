@@ -1,10 +1,9 @@
 <template>
-  <div>
-    <n-space inline class="mt-5 space-x-2 font-sans">
+  <div class="relative w-11/12 m-auto ">
+    <n-space inline class="mt-5 space-x-2 font-sans ">
       <div class="mt-2 ml-7 mr-96">设备管理</div>
-      <div class="ml-96"></div>
-      <div class="ml-20"></div>
-      <div>
+      <!-- <div class="ml-40"></div> -->
+      <div class="absolute right-0 top-5">
         <n-button class="ml-96" @click="add">新增设备</n-button>
         <n-button @click="del">删除设备</n-button>
       </div>
@@ -37,27 +36,22 @@ const columns = [
   {
     title: "设备名称",
     key: "name",
-    width: 270,
   },
   {
     title: "设备编号",
     key: "id",
-    width: 270,
   },
   {
     title: "所属场站",
     key: "address",
-    width: 270,
   },
   {
     title: "设备类型",
     key: "type",
-    width: 270,
   },
   {
     title: "父级设备",
     key: "father",
-    width: 270,
   },
   {
     title: "操作",
