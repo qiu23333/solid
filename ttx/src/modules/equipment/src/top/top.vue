@@ -1,7 +1,7 @@
 <template>
-  <div class="relative w-11/12 m-auto mt-10">
-    <n-space inline class="font-sans text-center">
-      <div class="mt-2 ml-28">场站</div>
+  <div class="relative w-11/12 h-20 m-auto mt-10 bg-white">
+    <n-space inline class="mt-5 font-sans text-center">
+      <div class="mt-2 ml-20">场站</div>
       <n-input
         round
         placeholder="请输入"
@@ -22,8 +22,8 @@
         class="w-52"
       />
       <div class="absolute right-0">
-        <n-button class="">重置</n-button>
-      <n-button @click="equipment.search(searchInfo)">查询</n-button>
+        <n-button class="mr-5" @click="reset">重置</n-button>
+      <n-button @click="equipment.search(searchInfo)" class="mr-5 bg-blue-400" type="info">查询</n-button>
       </div>
       
     </n-space>
@@ -49,6 +49,12 @@ let options = reactive([
     value: 514,
   },
 ]);
+
+function reset(){
+  searchInfo.id="",
+  searchInfo.value="",
+  searchInfo.place=""
+}
 </script>
 
 <style scoped></style>

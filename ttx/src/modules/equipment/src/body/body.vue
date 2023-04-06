@@ -1,11 +1,11 @@
 <template>
-  <div class="relative w-11/12 m-auto ">
-    <n-space inline class="mt-5 space-x-2 font-sans ">
-      <div class="mt-2 ml-7 mr-96">设备管理</div>
+  <div class="relative w-11/12 m-auto bg-white">
+    <n-space inline class="mt-2 space-x-2 font-sans">
+      <div class="mt-2 ml-7">设备管理</div>
       <!-- <div class="ml-40"></div> -->
-      <div class="absolute right-0 top-5">
-        <n-button class="ml-96" @click="add">新增设备</n-button>
-        <n-button @click="del">删除设备</n-button>
+      <div class="absolute right-0">
+        <n-button class="mr-5 bg-blue-400" @click="add" type="info">新增设备</n-button>
+        <n-button @click="del" class="mr-5 bg-red-400" type="error">删除设备</n-button>
       </div>
     </n-space>
     <n-data-table
@@ -14,8 +14,8 @@
       :pagination="pagination"
       :bordered="false"
       :single-line="false"
-      :max-height="2500"
-      class="mt-5"
+      :max-height="450"
+      class="mt-2"
     />
   </div>
 </template>
@@ -24,6 +24,7 @@
 import { NButton } from "naive-ui";
 import { equipmentStore } from "../store/equipment";
 import { storeToRefs } from "pinia";
+import { useDialog } from 'naive-ui'
 
 const equipment = equipmentStore()
 
@@ -60,6 +61,9 @@ const columns = [
       return h(
         NButton,
         {
+          text:true,
+          type:"info",
+          textColor:"blue",
           size: "small",
           onClick: () => sendMail(row),
         },
@@ -68,6 +72,9 @@ const columns = [
     },
   },
 ];
+// const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
+// const countDown = (second: number) => `倒计时 ${second} 秒`
+// const dialog = useDialog()
 
 function sendMail(rowData:any) {
   console.log("send mail to " + rowData.name);
@@ -75,14 +82,41 @@ function sendMail(rowData:any) {
 function add(){
   equipment.addData()
 }
+
+// function handleClick () {
+//         const d = dialog.success({
+//           title: '异步',
+//           content: '点击，倒计时 3 秒',
+//           positiveText: '确认',
+//           onPositiveClick: () => {
+//             d.loading = true
+//             return new Promise((resolve) => {
+//               sleep()
+//                 .then(() => {
+//                   d.content = countDown(2)
+//                   return sleep()
+//                 })
+//                 .then(() => {
+//                   d.content = countDown(1)
+//                   return sleep()
+//                 })
+//                 .then(() => {
+//                   d.content = countDown(0)
+//                 })
+//                 .then(resolve)
+//             })
+//           }
+//         })
+// }
 function del(){
+  // handleClick()
   equipment.delData()
 }
 const pagination = reactive({
-  page: 2,
-  pageSize: 5,
+  page: 1,
+  pageSize: 10,
   showSizePicker: true,
-  pageSizes: [3, 5, 7],
+  pageSizes: [10, 15, 20],
   onChange: (page: number) => {
     pagination.page = page;
   },
