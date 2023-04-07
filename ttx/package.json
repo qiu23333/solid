@@ -27,7 +27,8 @@
     "vite-plugin-mock": "^2.9.6",
     "vite-plugin-vue-setup-extend": "^0.4.0",
     "vue": "^3.2.47",
-    "vue-router": "^4.1.6"
+    "vue-router": "^4.1.6",
+    "vue-types": "^5.0.2"
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.1",

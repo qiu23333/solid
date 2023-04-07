@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import dotenv from 'dotenv';
+import { Recordable } from 'vite-plugin-mock';
 
 export function isDevFn(mode: string): boolean {
   return mode === 'development';
