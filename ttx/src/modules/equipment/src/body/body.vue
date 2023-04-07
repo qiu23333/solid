@@ -24,7 +24,6 @@
 import { NButton } from "naive-ui";
 import { equipmentStore } from "../store/equipment";
 import { storeToRefs } from "pinia";
-import { useDialog } from 'naive-ui'
 
 const equipment = equipmentStore()
 
@@ -72,9 +71,6 @@ const columns = [
     },
   },
 ];
-// const sleep = () => new Promise((resolve) => setTimeout(resolve, 1000))
-// const countDown = (second: number) => `倒计时 ${second} 秒`
-// const dialog = useDialog()
 
 function sendMail(rowData:any) {
   console.log("send mail to " + rowData.name);
@@ -83,31 +79,7 @@ function add(){
   equipment.addData()
 }
 
-// function handleClick () {
-//         const d = dialog.success({
-//           title: '异步',
-//           content: '点击，倒计时 3 秒',
-//           positiveText: '确认',
-//           onPositiveClick: () => {
-//             d.loading = true
-//             return new Promise((resolve) => {
-//               sleep()
-//                 .then(() => {
-//                   d.content = countDown(2)
-//                   return sleep()
-//                 })
-//                 .then(() => {
-//                   d.content = countDown(1)
-//                   return sleep()
-//                 })
-//                 .then(() => {
-//                   d.content = countDown(0)
-//                 })
-//                 .then(resolve)
-//             })
-//           }
-//         })
-// }
+
 function del(){
   // handleClick()
   equipment.delData()

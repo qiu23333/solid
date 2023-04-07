@@ -1,6 +1,7 @@
+import { requests } from '../request';
 import { LoginParams, LoginResultModel, GetUserInfoModel, DeptInfoModel } from './model/userModel';
 import { defHttp } from '/@/utils/http/axios';
-enum Api {
+export enum Api {
   TestRetry = '/testRetry',
   Login = '/system/login',
   Logout = '/system/logout',
@@ -32,5 +33,5 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
 }
 
 export function getCaptchImage() {
-  return defHttp.post({ url: Api.captchImage });
+  return requests.post({ url: Api.captchImage });
 }

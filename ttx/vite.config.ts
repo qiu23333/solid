@@ -13,7 +13,7 @@ import { resolve } from 'path'
 
 function pathResolve(dir: string) {
 	return resolve(process.cwd(), '.', dir);
-  }
+}
 // https://vitejs.dev/config/
 export default defineConfig({
 	plugins: [
@@ -43,25 +43,36 @@ export default defineConfig({
 	],
 	resolve: {
 		alias: [
-		  {
-			find: 'vue-i18n',
-			replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
-		  },
-		  // /@/xxxx => src/xxxx
-		  {
-			find: /\/@\//,
-			replacement: pathResolve('src') + '/',
-		  },
-		  // /#/xxxx => types/xxxx
-		  {
-			find: /\/#\//,
-			replacement: pathResolve('types') + '/',
-		  },
-		  // /#/xxxx => types/xxxx
-		  {
-			find: /\/domain\//,
-			replacement: pathResolve('src/modules') + '/',
-		  },
+			{
+				find: 'vue-i18n',
+				replacement: 'vue-i18n/dist/vue-i18n.cjs.js',
+			},
+			// /@/xxxx => src/xxxx
+			{
+				find: /\/@\//,
+				replacement: pathResolve('src') + '/',
+			},
+			// /#/xxxx => types/xxxx
+			{
+				find: /\/#\//,
+				replacement: pathResolve('types') + '/',
+			},
+			// /#/xxxx => types/xxxx
+			{
+				find: /\/domain\//,
+				replacement: pathResolve('src/modules') + '/',
+			},
 		],
-	  },
+	},
+	server: {
+		proxy: {
+			'/api': { // 配置需要代理的路径 --> 这里的意思是代理http://localhost:80/api/后的所有路由
+				// target: 'http//10.40.38.73:8801', // 目标地址 --> 服务器地址
+				target: 'http//http://172.16.10.135:8888', // 目标地址 --> 服务器地址
+				changeOrigin: true, // 允许跨域
+				// 重写路径 --> 作用与vue配置pathRewrite作用相同
+				rewrite: (path) => path.replace(/^\/api/, "")
+			}
+		}
+	}
 })
