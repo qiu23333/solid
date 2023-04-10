@@ -19,6 +19,16 @@
         v-model:value="loginInfo.user.pwd"
       />
     </div>
+    <div>
+      验证码
+      <n-input
+        type="text"
+        placeholder="可以清除"
+        clearable
+        v-model:value="loginInfo.user.captcha"
+        class="w-20"
+      />
+    </div>
     <div class="w-16 mt-4" @click="refreshCaptch">
       <img :src="imgSrc" alt="" />
       <img src="../assets/02.jpg" alt="">
@@ -40,26 +50,27 @@ import { onMountedOrActivated } from "/@/hooks/core/onMountedOrActivated";
 import { getCaptchImage } from "../api/index";
 const user = userStore();
 const router = useRouter();
-const imgSrc = ref<string>();
+let imgSrc = ref<string>('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAoCAIAAACHGsgUAAABSElEQVR4Xu3WsW3DQAyFYS2SMsN4ggyQFbJAhknnSVKkzhRZgS5kGMK9I3XvzAAU9IC/ImkXHwxZi9mfGmzBkfISFpGwiIRFJCwiYREJi0hYRMIiEhaRsIgysX4ub3PhV9XsdFjf15dteBBUHev99WsNV3NVwfIaQfESFlEu1jNSJiwqYREJy93iQYv1+/GJNTdsuViPyYRgYLErZQ0WMqV4ZWFtmSbIAosRKdtiBS7d4XgpWOjSHQZ5HN4cu2MFUs+XhTW+6oYozSSWsgNh4Wp324Q0lJQh1n+QHQIL77E+Vq5acSy89Oo84NO9KmCh0YRX+55lPTW8oSqI1Z3s1sFaOxvWiJeLZXl/kTWxcLjrdWqsYN5t8TiypKwAVvALClbYHcsLPzBRNax4iwePovcsvJ7rcFh4sxY9s1STsIiERSQsImER3QCy7sCEY5Di8wAAAABJRU5ErkJggg==');
 const verification = ref<string>();
 let { loginInfo } = storeToRefs(user);
 
 async function login() {
-  await user.login();
+  await user.login(verification);
   if (user.userInfo.isLogin) {
     router.push({
       name: "customer",
       path: "/cuntomer",
     });
   } else {
-    console.log(user.userInfo.isLogin);
+    // console.log(user.userInfo.isLogin);
     alert("过不去嗷，傻杯");
   }
 }
 async function refreshCaptch() {
-    // console.log("@@@@@")
+  console.log("@@@@@")
   const res = await getCaptchImage();
-  const { imgId, img } = res;
+  // console.log(res)
+  const { imgId, img } = res.data;
   imgSrc.value = img;
   verification.value = imgId;
 }

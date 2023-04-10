@@ -1,5 +1,7 @@
 import { defineStore } from "pinia";
 import { reactive } from "vue";
+import { login, logout } from "../../api/index";
+import { getCaptchImage } from "../../api/index";
 
 export interface LoginParams {
     grantType: string;
@@ -9,37 +11,56 @@ export interface LoginParams {
     captcha: string;
     code: string;
     verification?: string;
-  }
+}
 
-export const userStore=defineStore({
-    id:'user',
-    state:()=>{
+export const userStore = defineStore({
+    id: 'user',
+    state: () => {
         let loginInfo = reactive({
-            user:{
-                id:'114514',
-                pwd:'114514'
+            user: {
+                id: '114514',
+                pwd: '114514',
+                captcha: ''
             },
-            phone:''
+            phone: ''
         })
         let userInfo = reactive({
-            id:'',
-            phone:'',
-            isLogin:false
+            id: '',
+            phone: '',
+            isLogin: false
         })
         return {
             loginInfo,
             userInfo
         }
     },
-    actions:{
-        login(){
-            
-            console.log("登录捏")
-            this.userInfo.isLogin = true
+    actions: {
+        async login(v: globalThis.Ref<string>) {
+            const res = await login(this.loginInfo.user.captcha, v.value)
+            if(res.data.code==400){
+                getCaptchImage()
+                this.loginInfo.user.captcha = ''
+                return null
+            }else{
+                localStorage.setItem("tk", res.data.token || null)
+                console.log("登录捏")
+                // console.log(res.data.token)
+                console.log(localStorage.getItem("tk"))
+                this.userInfo.isLogin = true
+                // return this.afterLogin()
+            }
         },
-        logout(){
-            console.log("下线咯")
-            this.userInfo.isLogin = false
+        afterLogin() {
+            if (localStorage.getItem("tk")) {
+                this.userInfo.isLogin = true
+            } else {
+                alert("真成了？")
+                return null
+            }
+        },
+        async logout() {
+            await logout()
+            localStorage.removeItem("tk")
         }
     }
 })

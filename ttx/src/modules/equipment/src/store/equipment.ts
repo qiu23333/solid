@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { useRouter } from "vue-router";
-
+import { getData } from "../../../../api";
 export const equipmentStore=defineStore({
     id:'equipment',
     state:()=>{
@@ -18,13 +18,14 @@ export const equipmentStore=defineStore({
         }
     },
     actions:{
-        getData(){
+        async getData(){
             // api请求数据
-            
+            let res = await getData()
             // 刷新本地数据
-
+            console.log(res.data.code)
+            // this.data = res.data
             // 数据更新，需要重载页面
-            this.router.go(0)
+            // this.router.go(0)
         },
         search(p){
             // api发起请求，把输入的参数传到后端，拿到返回的数据

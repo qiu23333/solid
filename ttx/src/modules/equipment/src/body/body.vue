@@ -24,9 +24,9 @@
 import { NButton } from "naive-ui";
 import { equipmentStore } from "../store/equipment";
 import { storeToRefs } from "pinia";
+import { onMountedOrActivated } from "/@/hooks/core/onMountedOrActivated";
 
 const equipment = equipmentStore()
-
 let { data } = storeToRefs(equipment)
 
 const columns = [
@@ -97,6 +97,10 @@ const pagination = reactive({
     pagination.page = 1;
   },
 });
+
+onMountedOrActivated(()=>{
+  equipment.getData()
+})
 </script>
 
 <style scoped></style>

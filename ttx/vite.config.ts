@@ -40,19 +40,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
 		esbuild: {},
 		// plugins: [
 		// 	vue(),
-		// 	AutoImport({
-		// 		//安装两行后你会发现在组件中不用再导入ref，reactive等
-		// 		imports: ['vue', 'vue-router', {
-		// 			'naive-ui': [
-		// 				'useDialog',
-		// 				'useMessage',
-		// 				'useNotification',
-		// 				'useLoadingBar'
-		// 			]
-		// 		}],
-		// 		//存放的位置
-		// 		dts: "src/auto-import.d.ts",
-		// 	}),
+
 		// ],
 		resolve: {
 			alias: [
@@ -78,7 +66,22 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
 			],
 			dedupe: ['vue'],
 		},
-		plugins: createVitePlugins(viteEnv, isBuild, prodMock),
+		plugins: [
+			createVitePlugins(viteEnv, isBuild, prodMock),
+			AutoImport({
+				//安装两行后你会发现在组件中不用再导入ref，reactive等
+				imports: ['vue', 'vue-router', {
+					'naive-ui': [
+						'useDialog',
+						'useMessage',
+						'useNotification',
+						'useLoadingBar'
+					]
+				}],
+				//存放的位置
+				dts: "src/auto-import.d.ts",
+			}),
+		],
 		define: {
 			__APP_INFO__: JSON.stringify(__APP_INFO__),
 		},
@@ -94,14 +97,14 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
 		server: {
 			host: true,
 			port: VITE_PORT,
-			proxy: createProxy(VITE_PROXY),
-			// proxy: {
-			//     '/api': {
-			//         target: '',
-			//         changeOrigin: true,
-			//         rewrite: (path) => path.replace(/^\/api/, '/api/v1')
-			//     }
-			// }
+			// proxy: createProxy(VITE_PROXY),
+			proxy: {
+			    '/api': {
+			        target: 'http://172.16.10.135:8801/api',
+			        changeOrigin: true,
+			        rewrite: (path) => path.replace(/^\/api/, '')
+			    }
+			}
 		},
 		optimizeDeps: {
 			include: [],

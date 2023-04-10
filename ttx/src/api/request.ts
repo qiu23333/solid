@@ -4,12 +4,13 @@ export const requests = axios.create({
   baseURL: "/api",
   // 超时时间
   timeout: 5000,
+
 });
 // 请求拦截器，
 requests.interceptors.request.use((config) => {
   // 逻辑业务处理
-  alert("马上出发嗷!");
-  console.log(config);
+  // alert("马上出发嗷!");
+  // console.log(config);
   // config是一个配置对象，对象里面的headers请求头属性很重要嗷
   return config;
 });
@@ -18,7 +19,7 @@ requests.interceptors.response.use(
   // 成功的回调，返回数据data
   (res) => {
     // 成功的逻辑处理
-    alert("成辣！！！");
+    // alert("成辣！！！");
     return res.data;
   },
   //   失败的回调
@@ -58,7 +59,7 @@ export default class Api {
     // 请求拦截器嗷
     this.instance.interceptors.request.use((config) => {
       // 逻辑业务处理
-      console.log("马上出发嗷!");
+      // console.log("马上出发嗷!");
       console.log(config);
       if (this.loading) {
         // Toast.show({
@@ -76,14 +77,14 @@ export default class Api {
       // 成功的回调
       (res) => {
         // 成功的逻辑处理
-        console.log("肥来力！！！");
+        // console.log("肥来力！！！");
         // Toast.clear();
         return res
       },
       //   失败的回调
       (error) => {
         // 失败的逻辑业务处理
-        console.log("寄辣！！！");
+        // console.log("寄辣！！！");
         console.log(error);
         return Promise.reject(new Error("faile"));
         // return console.log(error)
