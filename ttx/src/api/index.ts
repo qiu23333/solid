@@ -39,6 +39,15 @@ export const login = (c: any, v: any) => {
         }
     })
 }
+export const getUserInfo=()=>{
+    return requests({
+        url:'/system/sysUser/getUserInfo',
+        method:'post',
+        headers:{
+            Authorization:localStorage.getItem("tk")
+        }
+    })
+}
 export const logout = ()=>{
     return requests({
         url:'/system/logout',
@@ -52,11 +61,11 @@ export const getData = () => {
         params:{
             current:1,
             size:10,
-            _t:dayjs().format(),
+            // _t:dayjs().format(),
         },
         headers:{
             connection:'keep-alive',
-            token:localStorage.getItem("tk")
+            Authorization:localStorage.getItem("tk")
         }
     })
 }

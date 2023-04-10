@@ -4,11 +4,16 @@
       <div class="mt-2 ml-7">设备管理</div>
       <!-- <div class="ml-40"></div> -->
       <div class="absolute right-0">
-        <n-button class="mr-5 bg-blue-400" @click="add" type="info">新增设备</n-button>
-        <n-button @click="del" class="mr-5 bg-red-400" type="error">删除设备</n-button>
+        <n-button class="mr-5 bg-blue-400" @click="add" type="info"
+          >新增设备</n-button
+        >
+        <n-button @click="del" class="mr-5 bg-red-400" type="error"
+          >删除设备</n-button
+        >
       </div>
     </n-space>
     <n-data-table
+      remote
       :columns="columns"
       :data="data"
       :pagination="pagination"
@@ -16,6 +21,17 @@
       :single-line="false"
       :max-height="450"
       class="mt-2"
+    />
+    <n-pagination
+      v-model:page="page"
+      :page-count="100"
+      size="large"
+      show-quick-jumper
+      show-size-picker
+ 
+      :on-update:page="onChange"
+      :on-page-size-change="onUpdatePageSize"
+      class="absolute right-0 mt-2"
     />
   </div>
 </template>
@@ -26,24 +42,24 @@ import { equipmentStore } from "../store/equipment";
 import { storeToRefs } from "pinia";
 import { onMountedOrActivated } from "/@/hooks/core/onMountedOrActivated";
 
-const equipment = equipmentStore()
-let { data } = storeToRefs(equipment)
-
+const equipment = equipmentStore();
+let { data } = storeToRefs(equipment);
+let page = ref(2);
 const columns = [
   {
     type: "selection",
   },
   {
     title: "设备名称",
-    key: "name",
+    key: "subName",
   },
   {
     title: "设备编号",
-    key: "id",
+    key: "itemNo",
   },
   {
     title: "所属场站",
-    key: "address",
+    key: "baseName",
   },
   {
     title: "设备类型",
@@ -51,18 +67,18 @@ const columns = [
   },
   {
     title: "父级设备",
-    key: "father",
+    key: "parentName",
   },
   {
     title: "操作",
     key: "actions",
-    render(row:any) {
+    render(row: any) {
       return h(
         NButton,
         {
-          text:true,
-          type:"info",
-          textColor:"blue",
+          text: true,
+          type: "info",
+          textColor: "blue",
           size: "small",
           onClick: () => sendMail(row),
         },
@@ -72,23 +88,31 @@ const columns = [
   },
 ];
 
-function sendMail(rowData:any) {
+function sendMail(rowData: any) {
   console.log("send mail to " + rowData.name);
 }
-function add(){
-  equipment.addData()
+function add() {
+  equipment.addData();
 }
 
-
-function del(){
+function del() {
   // handleClick()
-  equipment.delData()
+  equipment.delData();
+}
+function onChange(page: number) {
+  pagination.page = page;
+}
+function onUpdatePageSize(pageSize: number) {
+  pagination.pageSize = pageSize;
+  pagination.page = 1;
 }
 const pagination = reactive({
+  // ...equipment.data,
   page: 1,
   pageSize: 10,
   showSizePicker: true,
   pageSizes: [10, 15, 20],
+  showQuickJumper: true,
   onChange: (page: number) => {
     pagination.page = page;
   },
@@ -98,9 +122,9 @@ const pagination = reactive({
   },
 });
 
-onMountedOrActivated(()=>{
-  equipment.getData()
-})
+onMountedOrActivated(() => {
+  equipment.getData();
+});
 </script>
 
 <style scoped></style>

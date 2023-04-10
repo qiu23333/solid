@@ -21,7 +21,7 @@ import { storeToRefs } from 'pinia';
 import { useAttrs } from 'vue';
 const attrs = useAttrs();
 const sys = sysStore()
-console.log(attrs)
+// console.log(attrs)
 let { menuOptions, activeKey, collapsed } = storeToRefs(sys)
 
 </script>
