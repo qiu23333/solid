@@ -11,13 +11,6 @@ export const getName = () => {
         method: 'get'
     })
 }
-export const getInfo = (msg: object) => {
-    // console.log(msg)
-    return requests({
-        url: '/' + msg.url,
-        method: 'get',
-    })
-}
 
 export const getCaptchImage = () => {
     return requests({
@@ -54,17 +47,17 @@ export const logout = ()=>{
         method:'post'
     })
 }
-export const getData = () => {
+export const getData = (p:number,ps:number) => {
     return requests({
         url:'/device/deviceSub/pagesQueryDevice',
         method:'get',
         params:{
-            current:1,
-            size:10,
+            current:p,
+            size:ps,
             // _t:dayjs().format(),
         },
         headers:{
-            connection:'keep-alive',
+            // connection:'keep-alive',
             Authorization:localStorage.getItem("tk")
         }
     })

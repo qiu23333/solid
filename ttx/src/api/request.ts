@@ -1,9 +1,15 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import http from 'http';                                        
+import https from 'https';  
 export const requests = axios.create({
   // 基础路径
   baseURL: "/api",
   // 超时时间
-  timeout: 5000,
+  timeout: 1*60*1000,
+  //keepAlive pools and reuses TCP connections, so it's faster 
+  // httpAgent: new http.Agent({ keepAlive: true }), 
+  // httpsAgent: new https.Agent({ keepAlive: true }), 
+
 
 });
 // 请求拦截器，

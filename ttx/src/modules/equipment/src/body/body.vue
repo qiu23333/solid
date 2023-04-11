@@ -12,27 +12,16 @@
         >
       </div>
     </n-space>
-    <n-data-table
+    <n-data-tabl
       remote
       :columns="columns"
       :data="data"
-      :pagination="pagination"
       :bordered="false"
       :single-line="false"
       :max-height="450"
       class="mt-2"
-    />
-    <n-pagination
-      v-model:page="page"
-      :page-count="100"
-      size="large"
-      show-quick-jumper
-      show-size-picker
- 
-      :on-update:page="onChange"
-      :on-page-size-change="onUpdatePageSize"
-      class="absolute right-0 mt-2"
-    />
+    > <Ipagination /> </n-data-tabl>
+    
   </div>
 </template>
 
@@ -41,10 +30,10 @@ import { NButton } from "naive-ui";
 import { equipmentStore } from "../store/equipment";
 import { storeToRefs } from "pinia";
 import { onMountedOrActivated } from "/@/hooks/core/onMountedOrActivated";
+import Ipagination from './pagination/Ipagination.vue'
 
 const equipment = equipmentStore();
 let { data } = storeToRefs(equipment);
-let page = ref(2);
 const columns = [
   {
     type: "selection",
@@ -99,31 +88,9 @@ function del() {
   // handleClick()
   equipment.delData();
 }
-function onChange(page: number) {
-  pagination.page = page;
-}
-function onUpdatePageSize(pageSize: number) {
-  pagination.pageSize = pageSize;
-  pagination.page = 1;
-}
-const pagination = reactive({
-  // ...equipment.data,
-  page: 1,
-  pageSize: 10,
-  showSizePicker: true,
-  pageSizes: [10, 15, 20],
-  showQuickJumper: true,
-  onChange: (page: number) => {
-    pagination.page = page;
-  },
-  onUpdatePageSize: (pageSize: number) => {
-    pagination.pageSize = pageSize;
-    pagination.page = 1;
-  },
-});
 
 onMountedOrActivated(() => {
-  equipment.getData();
+  equipment.getData(1,10);
 });
 </script>
 

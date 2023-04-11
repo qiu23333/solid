@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     Button: typeof import('./src/components/button/button.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
+    NDataTabl: typeof import('naive-ui')['NDataTabl']
     NDataTable: typeof import('naive-ui')['NDataTable']
     NInput: typeof import('naive-ui')['NInput']
     NLayout: typeof import('naive-ui')['NLayout']

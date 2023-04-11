@@ -5,12 +5,12 @@
       <n-input
         round
         placeholder="请输入"
-        v-model:value="searchInfo.place"
+        v-model:value="searchInfo.baseName"
         class="w-52"
       />
       <div class="mt-2 ml-28">设备类型</div>
       <n-select
-        v-model:value="searchInfo.value"
+        v-model:value="searchInfo.type"
         :options="options"
         class="w-52"
       />
@@ -18,7 +18,7 @@
       <n-input
         round
         placeholder="请输入"
-        v-model:value="searchInfo.id"
+        v-model:value="searchInfo.itemNo"
         class="w-52"
       />
       <div class="absolute right-0">
@@ -35,25 +35,26 @@ import { equipmentStore } from "../store/equipment";
 
 const equipment = equipmentStore();
 let searchInfo = reactive({
-  place: "",
-  value: "",
-  id: "",
+  baseName: "",
+  type: "",
+  itemNo: "",
 });
 let options = reactive([
   {
     label: "woc",
-    value: 114,
+    value: 'TCU',
   },
   {
     label: "热烈的🐎",
-    value: 514,
+    value: 'NCU',
   },
 ]);
 
 function reset(){
-  searchInfo.id="",
-  searchInfo.value="",
-  searchInfo.place=""
+  searchInfo.baseName="",
+  searchInfo.type="",
+  searchInfo.itemNo=""
+  equipment.getData(0,equipment.pageSize)
 }
 </script>
 
