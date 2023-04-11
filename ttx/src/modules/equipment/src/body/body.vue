@@ -98,9 +98,12 @@ function add() {
   equipment.addData();
 }
 
-function del() {
+async function del() {
   // handleClick()
-  equipment.delData();
+  let res = await equipment.delData();
+  if(res===true){
+    
+  }
 }
 
 onMountedOrActivated(() => {

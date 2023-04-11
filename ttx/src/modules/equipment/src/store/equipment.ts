@@ -114,13 +114,16 @@ export const equipmentStore = defineStore({
             console.log("稍作添加")
         },
         async delData() {
-            // console.log("111111"+this.checkedRowKeysRef)
             let res = await removeItem(this.checkedRowKeysRef)
             console.log(res.code)
-            // if(res.data==true){
-            //     console.log("##"+res.data.code)
-            // }
-            // return this.getData(1,this.pageSize)
+            if(res.data===true){
+                this.getData(1,this.pageSize)
+                console.log("##"+res.data)
+                return true
+            }
+            else{
+                return res.msg
+            }
         },
         change() {
 
