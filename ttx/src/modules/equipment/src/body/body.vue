@@ -20,6 +20,7 @@
       :bordered="false"
       :single-line="false"
       :max-height="473"
+      :min-height="473"
       class="relative mt-2 mb-6"
     />
     <pagination />

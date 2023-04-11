@@ -5,6 +5,7 @@
       <n-input
         round
         placeholder="请输入"
+        clearable
         v-model:value="searchInfo.baseName"
         class="w-52"
       />
@@ -12,49 +13,51 @@
       <n-select
         v-model:value="searchInfo.type"
         :options="options"
+        clearable
         class="w-52"
       />
       <div class="mt-2 ml-24">设备编号</div>
       <n-input
         round
         placeholder="请输入"
+        clearable
         v-model:value="searchInfo.itemNo"
         class="w-52"
       />
       <div class="absolute right-0">
         <n-button class="mr-5" @click="reset">重置</n-button>
-      <n-button @click="equipment.search(searchInfo)" class="mr-5 bg-blue-400" type="info">查询</n-button>
+        <n-button
+          @click="equipment.search(searchInfo)"
+          class="mr-5 bg-blue-400"
+          type="info"
+          >查询</n-button
+        >
       </div>
-      
     </n-space>
   </div>
 </template>
 
 <script setup lang="ts">
 import { equipmentStore } from "../store/equipment";
-
+import { storeToRefs } from "pinia";
 const equipment = equipmentStore();
-let searchInfo = reactive({
-  baseName: "",
-  type: "",
-  itemNo: "",
-});
+let { searchInfo } = storeToRefs(equipment);
 let options = reactive([
   {
-    label: "woc",
-    value: 'TCU',
+    label: "tcu",
+    value: "7",
   },
   {
-    label: "热烈的🐎",
-    value: 'NCU',
+    label: "ncu",
+    value: "6",
   },
 ]);
 
-function reset(){
-  searchInfo.baseName="",
-  searchInfo.type="",
-  searchInfo.itemNo=""
-  equipment.getData(0,equipment.pageSize)
+function reset() {
+  equipment.searchInfo.baseName = "";
+  equipment.searchInfo.type = "";
+  equipment.searchInfo.itemNo = "";
+  equipment.getData(0, equipment.pageSize);
 }
 </script>
 

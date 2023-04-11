@@ -1,4 +1,5 @@
 
+import { basename } from "path";
 import { requests } from "./request";
 import dayjs from "dayjs";
 
@@ -47,7 +48,47 @@ export const logout = ()=>{
         method:'post'
     })
 }
-export const getData = (p:number,ps:number) => {
+export const getData = (p:number,ps:number,info?:object) => {
+    // 查询模块
+    if(info){
+        const{baseName="", type="", itemNo=""}={...info}
+        if(type!==""){
+            return requests({
+                url:'/device/deviceSub/pagesQueryDevice',
+                method:'get',
+                params:{
+                    type:type,
+                    baseName:baseName,
+                    itemNo:itemNo,
+                    current:p,
+                    size:ps,
+                    // _t:dayjs().format(),
+                },
+                headers:{
+                    // connection:'keep-alive',
+                    Authorization:localStorage.getItem("tk")
+                }
+            })
+        }
+        else {
+            return requests({
+                url:'/device/deviceSub/pagesQueryDevice',
+                method:'get',
+                params:{
+                    baseName:baseName,
+                    itemNo:itemNo,
+                    current:p,
+                    size:ps,
+                    // _t:dayjs().format(),
+                },
+                headers:{
+                    // connection:'keep-alive',
+                    Authorization:localStorage.getItem("tk")
+                }
+            })
+        }
+    }
+    // 数据请求
     return requests({
         url:'/device/deviceSub/pagesQueryDevice',
         method:'get',
