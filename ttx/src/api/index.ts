@@ -4,21 +4,14 @@ import { requests } from "./request";
 import dayjs from "dayjs";
 
 // 接口统一管理哎
-export const getName = () => {
-    return requests({
-        // 二次里面配置了baseurl，所以不用加api在路径前面嗷
-        url: "/",
-        // 请求类型
-        method: 'get'
-    })
-}
-
+// 验证码
 export const getCaptchImage = () => {
     return requests({
         url: '/system/getCaptchaImage',
         method: 'post'
     })
 }
+// 登录
 export const login = (c: any, v: any) => {
     return requests({
         url: '/system/login',
@@ -33,6 +26,7 @@ export const login = (c: any, v: any) => {
         }
     })
 }
+// 获取用户信息
 export const getUserInfo=()=>{
     return requests({
         url:'/system/sysUser/getUserInfo',
@@ -42,12 +36,14 @@ export const getUserInfo=()=>{
         }
     })
 }
+// 登出
 export const logout = ()=>{
     return requests({
         url:'/system/logout',
         method:'post'
     })
 }
+// 设备数据获取
 export const getData = (p:number,ps:number,info?:object) => {
     // 查询模块
     if(info){
@@ -101,5 +97,18 @@ export const getData = (p:number,ps:number,info?:object) => {
             // connection:'keep-alive',
             Authorization:localStorage.getItem("tk")
         }
+    })
+}
+// 删除设备
+export const removeItem = (ids:string)=>{
+    return requests({
+        url:'/device/deviceSub/removeDevice',
+        method:'post',
+        params:{
+            ids:ids
+        },
+        headers:{
+            Authorization:localStorage.getItem("tk")
+        },
     })
 }

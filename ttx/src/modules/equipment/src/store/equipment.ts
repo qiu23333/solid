@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
-import { getData } from "../../../../api";
+import { getData, removeItem } from "../../../../api";
+import { DataTableRowKey } from "naive-ui";
 
 export const equipmentStore = defineStore({
     id: 'equipment',
@@ -10,6 +11,7 @@ export const equipmentStore = defineStore({
         let pageSize = ref(10)
         let data = []
         let loading = ref(false)
+        let checkedRowKeysRef = ""
         let searchInfo = reactive({
             baseName: "",
             type: "",
@@ -22,7 +24,8 @@ export const equipmentStore = defineStore({
             pageSize,
             loading,
             searchInfo,
-            all
+            all,
+            checkedRowKeysRef
         }
     },
     getters: {
@@ -36,7 +39,7 @@ export const equipmentStore = defineStore({
     },
     actions: {
         async getData(p: number, ps?: number) {
-            console.log(this.useSearch)
+            // console.log(this.useSearch)
             if (!this.useSearch) {
                 // console.log("++++++++++")
                 // page 为0 修改每页条数。转到第一页，并修改size
@@ -50,6 +53,7 @@ export const equipmentStore = defineStore({
                     this.total = res.data.pages
                     this.all = res.data.total
                     this.page = 1
+                    this.checkedRowKeysRef = ""
                     this.loading = false
                 } else {
                     this.loading = true
@@ -59,6 +63,7 @@ export const equipmentStore = defineStore({
                     this.data = res.data.records
                     this.total = res.data.pages
                     this.all = res.data.total
+                    this.checkedRowKeysRef = ""
                     this.loading = false
                     // 数据更新，需要重载页面
                     // this.router.go(0)
@@ -76,6 +81,7 @@ export const equipmentStore = defineStore({
                     this.total = res.data.pages
                     this.all = res.data.total
                     this.page = 1
+                    this.checkedRowKeysRef = ""
                     this.loading = false
                 } else {
                     this.loading = true
@@ -85,6 +91,7 @@ export const equipmentStore = defineStore({
                     this.data = res.data.records
                     this.total = res.data.pages
                     this.all = res.data.total
+                    this.checkedRowKeysRef = ""
                     this.loading = false
                     // 数据更新，需要重载页面
                     // this.router.go(0)
@@ -93,11 +100,11 @@ export const equipmentStore = defineStore({
 
         },
         async search(p: any) {
-            // api发起请求，把输入的参数传到后端，拿到返回的数据
-
+            // 参数整理
             const info = { ...p }
+            // 发送请求
             await this.getData(1, this.pageSize, info)
-            console.log(info)
+            // console.log(info)
             // 刷新本地数据
             // this.data = []
             // 数据更新，需要重载页面
@@ -106,8 +113,14 @@ export const equipmentStore = defineStore({
         addData() {
             console.log("稍作添加")
         },
-        delData() {
-            console.log("略作删除")
+        async delData() {
+            // console.log("111111"+this.checkedRowKeysRef)
+            let res = await removeItem(this.checkedRowKeysRef)
+            console.log(res.code)
+            // if(res.data==true){
+            //     console.log("##"+res.data.code)
+            // }
+            // return this.getData(1,this.pageSize)
         },
         change() {
 

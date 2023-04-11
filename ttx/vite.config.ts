@@ -1,12 +1,5 @@
-import vue from '@vitejs/plugin-vue'
-// 自动导入vue中hook reactive ref等
+
 import AutoImport from "unplugin-auto-import/vite"
-//自动导入ui-组件 比如说ant-design-vue  element-plus等
-import Components from 'unplugin-vue-components/vite'
-// 语法糖自定义组件名称
-import VueSetupExtend from 'vite-plugin-vue-setup-extend'
-// naive ui自动导入
-import { NaiveUiResolver } from 'unplugin-vue-components/resolvers'
 
 import type { UserConfig, ConfigEnv } from 'vite';
 import { loadEnv } from 'vite';
@@ -14,7 +7,6 @@ import { resolve } from 'path';
 import { wrapperEnv } from './build/utils';
 import { createVitePlugins } from './build/vite/plugin';
 import { OUTPUT_DIR } from './build/constant';
-import { createProxy } from './build/vite/proxy';
 import pkg from './package.json';
 import { format } from 'date-fns';
 const { dependencies, devDependencies, name, version } = pkg;
@@ -100,7 +92,7 @@ export default ({ command, mode }: ConfigEnv): UserConfig => {
 			// proxy: createProxy(VITE_PROXY),
 			proxy: {
 			    '/api': {
-			        target: 'http://172.16.10.135:8801/api',
+			        target: 'http://10.40.38.73:8801/api',
 			        changeOrigin: true,
 			        rewrite: (path) => path.replace(/^\/api/, '')
 			    }

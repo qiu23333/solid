@@ -21,6 +21,8 @@
       :single-line="false"
       :max-height="473"
       :min-height="473"
+      :row-key="rowKey"
+      @update:checked-row-keys="handleCheck"
       class="relative mt-2 mb-6"
     />
     <pagination />
@@ -33,12 +35,15 @@ import { equipmentStore } from "../store/equipment";
 import { storeToRefs } from "pinia";
 import { onMountedOrActivated } from "/@/hooks/core/onMountedOrActivated";
 import pagination from "./pagination/pagination.vue";
+import type { DataTableRowKey } from "naive-ui";
 
 const equipment = equipmentStore();
-let { data, loading } = storeToRefs(equipment);
+
+let { data, loading, } = storeToRefs(equipment);
 const columns = [
   {
     type: "selection",
+    // key:"id"
   },
   {
     title: "设备名称",
@@ -78,7 +83,14 @@ const columns = [
     },
   },
 ];
-
+function rowKey(row:any) {
+  // console.log(row)
+  return row.id
+}
+function handleCheck(rowKeys: DataTableRowKey[]) {
+  equipment.checkedRowKeysRef = rowKeys.join(",");
+  // console.log("#####"+equipment.checkedRowKeysRef)
+}
 function sendMail(rowData: any) {
   console.log("send mail to " + rowData.name);
 }
