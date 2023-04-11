@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-11/12 m-auto bg-white">
+  <n-space class="relative w-11/12 h-auto m-auto bg-white">
     <n-space inline class="mt-2 space-x-2 font-sans">
       <div class="mt-2 ml-7">设备管理</div>
       <!-- <div class="ml-40"></div> -->
@@ -12,17 +12,18 @@
         >
       </div>
     </n-space>
-    <n-data-tabl
+    <n-data-table
       remote
+      :loading="loading"
       :columns="columns"
       :data="data"
       :bordered="false"
       :single-line="false"
-      :max-height="450"
-      class="mt-2"
-    > <Ipagination /> </n-data-tabl>
-    
-  </div>
+      :max-height="473"
+      class="relative mt-2 mb-6"
+    />
+    <pagination />
+  </n-space>
 </template>
 
 <script setup lang="ts">
@@ -30,10 +31,10 @@ import { NButton } from "naive-ui";
 import { equipmentStore } from "../store/equipment";
 import { storeToRefs } from "pinia";
 import { onMountedOrActivated } from "/@/hooks/core/onMountedOrActivated";
-import Ipagination from './pagination/Ipagination.vue'
+import pagination from "./pagination/pagination.vue";
 
 const equipment = equipmentStore();
-let { data } = storeToRefs(equipment);
+let { data, loading } = storeToRefs(equipment);
 const columns = [
   {
     type: "selection",
@@ -90,7 +91,7 @@ function del() {
 }
 
 onMountedOrActivated(() => {
-  equipment.getData(1,10);
+  equipment.getData(1, 10);
 });
 </script>
 

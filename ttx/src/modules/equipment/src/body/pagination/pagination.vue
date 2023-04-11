@@ -1,5 +1,4 @@
 <template>
-  <div>
     <n-pagination
       v-model:page="page"
       v-model:page-size="pageSize"
@@ -9,9 +8,8 @@
       :on-update:page="onChange"
       :on-update:page-size="onUpdatePageSize"
       :page-sizes="[10, 15, 20]"
-      class="absolute right-0 mt-2"
+      class="absolute bottom-0 right-0 mt-2"
     />
-  </div>
 </template>
 
 <script setup lang="ts">
