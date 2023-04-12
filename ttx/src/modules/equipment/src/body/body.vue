@@ -91,7 +91,7 @@ function handleCheck(rowKeys: DataTableRowKey[]) {
   // console.log("#####"+equipment.checkedRowKeysRef)
 }
 function sendMail(rowData: any) {
-  console.log("send mail to " + rowData.name);
+  console.log("send mail to " + rowData.id);
 }
 function add() {
   equipment.addData();
@@ -110,6 +110,9 @@ async function del() {
     success("删除成功");
   } else if (res === "message.exceptions.exception_17") {
     error("设备存在子设备，无法删除");
+    // uMessage('error','设备存在子设备，无法删除')
+  } else if (res === "message.exceptions.exception_69") {
+    error("请先选择要删除的设备");
     // uMessage('error','设备存在子设备，无法删除')
   } else {
     error("别的错误捏");
