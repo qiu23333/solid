@@ -1,6 +1,6 @@
 <template>
     <n-space>
-        <Eform :inline="true" :class='fromClass' :lable-width='80' :items="fromItems" />
+        <Eform :inline="true" :class='fromClass' :lable-width='80' :inputItems="inputItems" />
         <div>账号
             <n-input type="text" placeholder="可以清除" clearable v-model:value="loginInfo.user.id" class="w-20" />
         </div>
@@ -21,40 +21,40 @@ import { NTag } from 'naive-ui';
 import { h } from 'vue'
 const user = userStore()
 const router = useRouter()
-const fromClass ='bg-gray-100 m-auto'
-const fromItems= [
+const fromClass = 'bg-gray-100 m-auto'
+const inputItems = [
     {
-        name:'name',
-        path:'user.name',  
+        name: 'name',
+        path: 'user.name',
     },
     {
-        name:'age',
-        path:'user.path'
+        name: 'age',
+        path: 'user.path'
     },
     {
-        name:'address',
-        path:'user.path'
+        name: 'address',
+        path: 'user.path'
     },
     {
-        name:'action',
-        render (row) {
-        const tags = row.tags.map((tagKey) => {
-          return h(
-            NTag,
-            {
-              style: {
-                marginRight: '6px'
-              },
-              type: 'info',
-              bordered: false
-            },
-            {
-              default: () => tagKey
-            }
-          )
-        })
-        return tags
-      }
+        name: 'action',
+        render(row) {
+            const tags = row.tags.map((tagKey) => {
+                return h(
+                    NTag,
+                    {
+                        style: {
+                            marginRight: '6px'
+                        },
+                        type: 'info',
+                        bordered: false
+                    },
+                    {
+                        default: () => tagKey
+                    }
+                )
+            })
+            return tags
+        }
     }
 ]
 let { loginInfo } = storeToRefs(user)
@@ -66,9 +66,9 @@ function login() {
             path: '/cuntomer'
         })
     }
-    else { 
+    else {
         console.log(user.userInfo.isLogin)
-        alert("过不去嗷，傻杯") 
+        alert("过不去嗷，傻杯")
     }
 }
 </script>
