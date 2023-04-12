@@ -1,15 +1,18 @@
 <template>
   <n-space class="relative w-11/12 h-auto m-auto bg-white">
+    <n-message-provider />
     <n-space inline class="mt-2 space-x-2 font-sans">
       <div class="mt-2 ml-7">设备管理</div>
       <!-- <div class="ml-40"></div> -->
       <div class="absolute right-0">
-        <n-button class="mr-5 bg-blue-400" @click="add" type="info"
-          >新增设备</n-button
-        >
-        <n-button @click="del" class="mr-5 bg-red-400" type="error"
-          >删除设备</n-button
-        >
+        <n-space>
+          <n-button class="mr-5 bg-blue-400" @click="add" type="info"
+            >新增设备</n-button
+          >
+          <n-button @click="del" class="mr-5 bg-red-400" type="error"
+            >删除设备</n-button
+          >
+        </n-space>
       </div>
     </n-space>
     <n-data-table
@@ -38,6 +41,7 @@ import pagination from "./pagination/pagination.vue";
 import type { DataTableRowKey } from "naive-ui";
 
 const equipment = equipmentStore();
+
 let { data, loading } = storeToRefs(equipment);
 const columns = [
   {

@@ -18,12 +18,17 @@ declare module '@vue/runtime-core' {
     NInput: typeof import('naive-ui')['NInput']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutSider: typeof import('naive-ui')['NLayoutSider']
+    NMe: typeof import('naive-ui')['NMe']
     NMenu: typeof import('naive-ui')['NMenu']
+    NMes: typeof import('naive-ui')['NMes']
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
+    'NMessaproviderge-': typeof import('naive-ui')['NMessaproviderge-']
     NPagination: typeof import('naive-ui')['NPagination']
     NSelect: typeof import('naive-ui')['NSelect']
     NSpace: typeof import('naive-ui')['NSpace']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Search: typeof import('./src/components/table/components/search/search.vue')['default']
+    Table: typeof import('./src/components/table/table.vue')['default']
   }
 }

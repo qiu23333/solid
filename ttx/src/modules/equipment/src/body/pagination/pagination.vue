@@ -17,7 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import { eq } from "lodash";
 import { equipmentStore } from "../../store/equipment";
 import { storeToRefs } from "pinia";
 const equipment = equipmentStore();
