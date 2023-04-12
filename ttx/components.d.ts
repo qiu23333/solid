@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     Button: typeof import('./src/components/button/button.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    Message: typeof import('./src/components/message/message.vue')['default']
     NButton: typeof import('naive-ui')['NButton']
     NDataTabl: typeof import('naive-ui')['NDataTabl']
     NDataTable: typeof import('naive-ui')['NDataTable']
@@ -18,6 +19,7 @@ declare module '@vue/runtime-core' {
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutSider: typeof import('naive-ui')['NLayoutSider']
     NMenu: typeof import('naive-ui')['NMenu']
+    NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NPagination: typeof import('naive-ui')['NPagination']
     NSelect: typeof import('naive-ui')['NSelect']
     NSpace: typeof import('naive-ui')['NSpace']

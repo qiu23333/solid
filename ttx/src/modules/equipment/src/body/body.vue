@@ -38,8 +38,7 @@ import pagination from "./pagination/pagination.vue";
 import type { DataTableRowKey } from "naive-ui";
 
 const equipment = equipmentStore();
-
-let { data, loading, } = storeToRefs(equipment);
+let { data, loading } = storeToRefs(equipment);
 const columns = [
   {
     type: "selection",
@@ -83,9 +82,9 @@ const columns = [
     },
   },
 ];
-function rowKey(row:any) {
+function rowKey(row: any) {
   // console.log(row)
-  return row.id
+  return row.id;
 }
 function handleCheck(rowKeys: DataTableRowKey[]) {
   equipment.checkedRowKeysRef = rowKeys.join(",");
@@ -97,12 +96,24 @@ function sendMail(rowData: any) {
 function add() {
   equipment.addData();
 }
-
+function error(text: string) {
+  console.log(text);
+}
+function success(text: string) {
+  console.log(text);
+}
 async function del() {
   // handleClick()
   let res = await equipment.delData();
-  if(res===true){
-    
+  if (res === true) {
+    // uMessage('success','删除成功')
+    success("删除成功");
+  } else if (res === "message.exceptions.exception_17") {
+    error("设备存在子设备，无法删除");
+    // uMessage('error','设备存在子设备，无法删除')
+  } else {
+    error("别的错误捏");
+    // uMessage('error','别的错误捏')
   }
 }
 

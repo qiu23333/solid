@@ -14,7 +14,7 @@ export const equipmentStore = defineStore({
         let checkedRowKeysRef = ""
         let searchInfo = reactive({
             baseName: "",
-            type: "",
+            type: null,
             itemNo: "",
         })
         return {
