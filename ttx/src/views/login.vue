@@ -67,7 +67,7 @@ async function login() {
   }
 }
 async function refreshCaptch() {
-  console.log("@@@@@")
+  // console.log("@@@@@")
   const res = await getCaptchImage();
   // console.log(res)
   const { imgId, img } = res.data;

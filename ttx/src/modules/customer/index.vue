@@ -11,8 +11,8 @@ const router = useRouter()
 const user = userStore()
 function jump(){
   router.push({
-    name:'equipment',
-    path:'/equipment'
+    name:'useform',
+    path:'/useform'
   })
 }
 function logout(){

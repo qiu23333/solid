@@ -1,7 +1,7 @@
 <template>
   <div class="relative w-11/12 h-20 m-auto mt-10 bg-white">
     <n-space inline class="mt-5 font-sans text-center">
-      <div class="mt-2 ml-20">场站</div>
+      <div class="mt-2 ml-10">场站</div>
       <n-input
         round
         placeholder="请输入"
@@ -9,14 +9,14 @@
         v-model:value="searchInfo.baseName"
         class="w-52"
       />
-      <div class="mt-2 ml-28">设备类型</div>
+      <div class="mt-2 ml-10">设备类型</div>
       <n-select
         v-model:value="searchInfo.type"
         :options="options"
         clearable
         class="w-52"
       />
-      <div class="mt-2 ml-24">设备编号</div>
+      <div class="mt-2 ml-10">设备编号</div>
       <n-input
         round
         placeholder="请输入"
@@ -55,7 +55,7 @@ let options = reactive([
 
 function reset() {
   equipment.searchInfo.baseName = "";
-  equipment.searchInfo.type = "";
+  equipment.searchInfo.type = null;
   equipment.searchInfo.itemNo = "";
   equipment.getData(0, equipment.pageSize);
 }

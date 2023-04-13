@@ -6,16 +6,16 @@
     "allowSyntheticDefaultImports": true
   },
   "include": [
-  "src/**/*.ts",
-  "src/**/*.d.ts",
-  "src/**/*.tsx",
-  "src/**/*.vue",
-  "types/**/*.d.ts",
-  "types/**/*.ts",
-  "build/**/*.ts",
-  "build/**/*.d.ts",
-  "mock/**/*.ts",
-  "components.d.ts",
-  "vite.config.ts"
-]
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "types/**/*.d.ts",
+    "types/**/*.ts",
+    "build/**/*.ts",
+    "build/**/*.d.ts",
+    "mock/**/*.ts",
+    "components.d.ts",
+    "vite.config.ts"
+  ]
 }
