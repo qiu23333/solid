@@ -1,5 +1,4 @@
 
-import { basename } from "path";
 import { requests } from "./request";
 import dayjs from "dayjs";
 
@@ -106,6 +105,19 @@ export const removeItem = (ids:string)=>{
         method:'post',
         params:{
             ids:ids
+        },
+        headers:{
+            Authorization:localStorage.getItem("tk")
+        },
+    })
+}
+// 编辑设备：详细信息查询
+export const getItem = (id: any)=>{
+    return requests({
+        url:`device/deviceSub/queryDeviceSubDetails/${id}`,
+        method:'get',
+        params:{
+            
         },
         headers:{
             Authorization:localStorage.getItem("tk")

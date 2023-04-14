@@ -10,5 +10,4 @@ setupStore(app)
 // 装载router
 setupRouter(app)
 
-
 app.mount('#app')

@@ -30,7 +30,7 @@ export const equipmentStore = defineStore({
     },
     getters: {
         useSearch() {
-            if (this.searchInfo.baseName == "" && this.searchInfo.type == null && this.searchInfo.type == "" && this.searchInfo.itemNo == "") {
+            if (this.searchInfo.baseName == "" && this.searchInfo.type == null && this.searchInfo.itemNo == "") {
                 return false
             } else {
                 return true
@@ -115,7 +115,6 @@ export const equipmentStore = defineStore({
         },
         async delData() {
             let res = await removeItem(this.checkedRowKeysRef)
-            console.log(res.code)
             if(res.data===true){
                 this.getData(1,this.pageSize)
                 console.log("##"+res.data)

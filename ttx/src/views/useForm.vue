@@ -1,24 +1,24 @@
 <template>
-    <div>
-      <n-card :bordered="false" class="mt-4 proCard">
-        <div class="BasicForm">
-          <BasicForm
-            @register="register"
-            @submit="handleSubmit"
-            @reset="handleReset"
-          >
-            <template #statusSlot="{ model, field }">
-              <n-input v-model:value="model[field]" />
-            </template>
-          </BasicForm>
-        </div>
-      </n-card>
-    </div>
+  <div>
+    <n-card :bordered="false" class="mt-4 proCard">
+      <div class="BasicForm">
+        <BasicForm
+          @register="register"
+          @submit="handleSubmit"
+          @reset="handleReset"
+        >
+          <template #statusSlot="{ model, field }">
+            <n-input v-model:value="model[field]" />
+          </template>
+        </BasicForm>
+      </div>
+    </n-card>
+  </div>
 </template>
 
 <script lang="ts" setup>
 import { BasicForm, FormSchema, useForm } from "/@/components/Form/index";
-import { createDiscreteApi, } from "naive-ui";
+import { message } from "/@/components/Dialog"
 
 const schemas: FormSchema[] = [
   {
@@ -165,7 +165,6 @@ const schemas: FormSchema[] = [
   },
 ];
 
-const { message } = createDiscreteApi(['message']);
 
 const [register, {}] = useForm({
   gridProps: { cols: 1 },
@@ -173,6 +172,7 @@ const [register, {}] = useForm({
   labelWidth: 120,
   layout: "horizontal",
   submitButtonText: "提交预约",
+  submitButtonOptions: { ghost: true },
   schemas,
 });
 
