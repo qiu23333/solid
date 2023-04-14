@@ -1,4 +1,5 @@
 
+import { method } from "lodash-es";
 import { requests } from "./request";
 import dayjs from "dayjs";
 
@@ -26,101 +27,123 @@ export const login = (c: any, v: any) => {
     })
 }
 // 获取用户信息
-export const getUserInfo=()=>{
+export const getUserInfo = () => {
     return requests({
-        url:'/system/sysUser/getUserInfo',
-        method:'post',
-        headers:{
-            Authorization:localStorage.getItem("tk")
+        url: '/system/sysUser/getUserInfo',
+        method: 'post',
+        headers: {
+            Authorization: localStorage.getItem("tk")
         }
     })
 }
 // 登出
-export const logout = ()=>{
+export const logout = () => {
     return requests({
-        url:'/system/logout',
-        method:'post'
+        url: '/system/logout',
+        method: 'post'
     })
 }
 // 设备数据获取
-export const getData = (p:number,ps:number,info?:object) => {
+export const getData = (p: number, ps: number, info?: object) => {
     // 查询模块
-    if(info){
-        const{baseName="", type="", itemNo=""}={...info}
-        if(type!==""){
+    if (info) {
+        const { baseName = "", type = "", itemNo = "" } = { ...info }
+        if (type !== "") {
             return requests({
-                url:'/device/deviceSub/pagesQueryDevice',
-                method:'get',
-                params:{
-                    type:type,
-                    baseName:baseName,
-                    itemNo:itemNo,
-                    current:p,
-                    size:ps,
+                url: '/device/deviceSub/pagesQueryDevice',
+                method: 'get',
+                params: {
+                    type: type,
+                    baseName: baseName,
+                    itemNo: itemNo,
+                    current: p,
+                    size: ps,
                     // _t:dayjs().format(),
                 },
-                headers:{
+                headers: {
                     // connection:'keep-alive',
-                    Authorization:localStorage.getItem("tk")
+                    Authorization: localStorage.getItem("tk")
                 }
             })
         }
         else {
             return requests({
-                url:'/device/deviceSub/pagesQueryDevice',
-                method:'get',
-                params:{
-                    baseName:baseName,
-                    itemNo:itemNo,
-                    current:p,
-                    size:ps,
+                url: '/device/deviceSub/pagesQueryDevice',
+                method: 'get',
+                params: {
+                    baseName: baseName,
+                    itemNo: itemNo,
+                    current: p,
+                    size: ps,
                     // _t:dayjs().format(),
                 },
-                headers:{
+                headers: {
                     // connection:'keep-alive',
-                    Authorization:localStorage.getItem("tk")
+                    Authorization: localStorage.getItem("tk")
                 }
             })
         }
     }
     // 数据请求
     return requests({
-        url:'/device/deviceSub/pagesQueryDevice',
-        method:'get',
-        params:{
-            current:p,
-            size:ps,
+        url: '/device/deviceSub/pagesQueryDevice',
+        method: 'get',
+        params: {
+            current: p,
+            size: ps,
             // _t:dayjs().format(),
         },
-        headers:{
+        headers: {
             // connection:'keep-alive',
-            Authorization:localStorage.getItem("tk")
+            Authorization: localStorage.getItem("tk")
         }
     })
 }
 // 删除设备
-export const removeItem = (ids:string)=>{
+export const removeItem = (ids: string) => {
     return requests({
-        url:'/device/deviceSub/removeDevice',
-        method:'post',
-        params:{
-            ids:ids
+        url: '/device/deviceSub/removeDevice',
+        method: 'post',
+        params: {
+            ids: ids
         },
-        headers:{
-            Authorization:localStorage.getItem("tk")
+        headers: {
+            Authorization: localStorage.getItem("tk")
         },
     })
 }
 // 编辑设备：详细信息查询
-export const getItem = (id: any)=>{
+export const getItem = (id: any) => {
     return requests({
-        url:`device/deviceSub/queryDeviceSubDetails/${id}`,
-        method:'get',
-        params:{
-            
+        url: `device/deviceSub/queryDeviceSubDetails/${id}`,
+        method: 'get',
+        params: {
+
         },
-        headers:{
-            Authorization:localStorage.getItem("tk")
+        headers: {
+            Authorization: localStorage.getItem("tk")
         },
     })
+}
+// 获取新建设备编号
+export const getDeviceNo = () => {
+    return requests({
+        url: 'device/deviceSub/getDeviceNo',
+        method: 'get',
+        headers: {
+            Authorization: localStorage.getItem("tk")
+        }
+    })
+}
+// 获取父级设备列表
+export const selectDeviceParent = () => {
+    return requests({
+        url: 'device/deviceSub/selectDeviceParent',
+        method:'get',
+        headers: {
+            Authorization: localStorage.getItem("tk")
+        }
+    })
+
+
 }

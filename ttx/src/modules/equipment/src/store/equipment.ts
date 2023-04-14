@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getData, removeItem } from "../../../../api";
+import { getData, removeItem, getDeviceNo, selectDeviceParent } from "../../../../api";
 import { DataTableRowKey } from "naive-ui";
 
 export const equipmentStore = defineStore({
@@ -12,11 +12,40 @@ export const equipmentStore = defineStore({
         let data = []
         let loading = ref(false)
         let checkedRowKeysRef = ""
+        let showModal = ref(false)
         let searchInfo = reactive({
             baseName: "",
             type: null,
             itemNo: "",
         })
+        let changeInfo = reactive({
+            type: null,
+            itemNo: '',
+            subName: '',
+            port: '',
+            host: "",
+            freq: '',
+            parentName: '',
+            dictItemName: '',
+            createTime: '',
+            baseName: '',
+            slave: ''
+        })
+        let parentNameOptions = reactive([
+            {
+
+            }
+        ])
+        let dictItemNameOptions = reactive([
+            {
+
+            }
+        ])
+        let baseNameOptions = reactive([
+            {
+
+            }
+        ])
         return {
             data,
             total,
@@ -25,7 +54,12 @@ export const equipmentStore = defineStore({
             loading,
             searchInfo,
             all,
-            checkedRowKeysRef
+            checkedRowKeysRef,
+            showModal,
+            changeInfo,
+            parentNameOptions,
+            dictItemNameOptions,
+            baseNameOptions
         }
     },
     getters: {
@@ -110,22 +144,27 @@ export const equipmentStore = defineStore({
             // 数据更新，需要重载页面
             // this.router.go(0)
         },
-        addData() {
+        async addData() {
+            let res = await getDeviceNo()
+            this.changeInfo.itemNo = res.data
+            let res1 = await selectDeviceParent()
+            this.parentNameOptions = res.data
             console.log("稍作添加")
         },
         async delData() {
             let res = await removeItem(this.checkedRowKeysRef)
-            if(res.data===true){
-                this.getData(1,this.pageSize)
-                console.log("##"+res.data)
+            if (res.data === true) {
+                this.getData(1, this.pageSize)
+                console.log("##" + res.data)
                 return true
             }
-            else{
+            else {
                 return res.msg
             }
         },
         change() {
 
-        }
+        },
+
     }
 })
