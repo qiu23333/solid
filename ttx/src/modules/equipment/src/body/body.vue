@@ -26,7 +26,7 @@
                 v-model:value="changeInfo.type"
               />
             </n-form-item-gi>
-            <n-form-item-gi :span="12" label="设备编号" class="mt-5 ml-20 w-80">
+            <n-form-item-gi :span="12" label="设备编号" class="mt-5 w-80">
               <n-input disabled v-model:value="changeInfo.itemNo" clearable />
             </n-form-item-gi>
             <n-form-item-gi
@@ -41,7 +41,7 @@
               :span="12"
               path="host"
               label="通讯地址"
-              class="mt-5 ml-20 w-80"
+              class="mt-5 w-80"
             >
               <n-input v-model:value="changeInfo.host" clearable />
             </n-form-item-gi>
@@ -57,7 +57,7 @@
               :span="12"
               path="freq"
               label="采集步长"
-              class="mt-5 ml-20 w-80"
+              class="mt-5 w-80"
             >
               <n-input v-model:value="changeInfo.freq" clearable />
             </n-form-item-gi>
@@ -72,7 +72,7 @@
               :span="12"
               path="protocol"
               label="协议类型"
-              class="mt-5 ml-20 w-80"
+              class="mt-5 w-80"
             >
               <n-select
                 :options="dictItemProtocolOptions"
@@ -96,7 +96,7 @@
               :span="12"
               path="brand"
               label="设备厂商"
-              class="mt-5 ml-20 w-80"
+              class="mt-5 w-80"
             >
               <n-select
                 :options="dictItemBrandOptions"
@@ -117,7 +117,7 @@
               :span="12"
               label="设备所属场站"
               path="baseName"
-              class="mt-5 ml-20 w-80"
+              class="mt-5 w-80"
               clearable
             >
               <n-select
