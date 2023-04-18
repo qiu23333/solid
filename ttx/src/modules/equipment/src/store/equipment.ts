@@ -1,6 +1,9 @@
 import { defineStore } from "pinia";
-import { getData, removeItem, getDeviceNo, selectDeviceParent } from "../../../../api";
-import { DataTableRowKey } from "naive-ui";
+import { getData, removeItem, getDeviceNo, selectDeviceParent, selectDeviceProtocol, selectDeviceModel, selectDeviceBrand, selectDeviceBaseName, getItem, updateItem } from "/@/api";
+// import { enums } from "/@/locales";
+import { message } from "/@/components/Dialog";
+import { number } from "vue-types";
+import { FormRules } from "naive-ui";
 
 export const equipmentStore = defineStore({
     id: 'equipment',
@@ -13,39 +16,74 @@ export const equipmentStore = defineStore({
         let loading = ref(false)
         let checkedRowKeysRef = ""
         let showModal = ref(false)
+        let showEdit = ref(false)
         let searchInfo = reactive({
             baseName: "",
             type: null,
             itemNo: "",
         })
         let changeInfo = reactive({
+            // tcu/ncu
             type: null,
+
+            // 设备编号
             itemNo: '',
+
+            // 设备名称
             subName: '',
+
+            // 端口号
             port: '',
-            host: "",
+
+            // 通讯地址
+            host: '',
+
+            // 采集步长
             freq: '',
+
+            // 父级设备
             parentName: '',
-            dictItemName: '',
-            createTime: '',
+
+            // 协议类型
+            protocol: '',
+
+            // 设备型号
+            model: '',
+
+            // 设备厂商
+            brand: '',
+
+            // 创建时间
+            createTime: null,
+
+            // 所属场站
             baseName: '',
-            slave: ''
+
+            // 从站号
+            slave: '',
+
+            //不知名参数
+            orgId: '',
+
+            // 
+            id:''
         })
         let parentNameOptions = reactive([
-            {
-
-            }
+            {}
         ])
-        let dictItemNameOptions = reactive([
-            {
-
-            }
+        let dictItemProtocolOptions = reactive([
+            {}
+        ])
+        let dictItemModelOptions = reactive([
+            {}
+        ])
+        let dictItemBrandOptions = reactive([
+            {}
         ])
         let baseNameOptions = reactive([
-            {
-
-            }
+            {}
         ])
+
         return {
             data,
             total,
@@ -56,10 +94,13 @@ export const equipmentStore = defineStore({
             all,
             checkedRowKeysRef,
             showModal,
+            showEdit,
             changeInfo,
             parentNameOptions,
-            dictItemNameOptions,
-            baseNameOptions
+            dictItemProtocolOptions,
+            baseNameOptions,
+            dictItemModelOptions,
+            dictItemBrandOptions,
         }
     },
     getters: {
@@ -144,12 +185,47 @@ export const equipmentStore = defineStore({
             // 数据更新，需要重载页面
             // this.router.go(0)
         },
-        async addData() {
-            let res = await getDeviceNo()
-            this.changeInfo.itemNo = res.data
+        async getAddData() {
+            // 获取父级设备列表
             let res1 = await selectDeviceParent()
-            this.parentNameOptions = res.data
-            console.log("稍作添加")
+            this.parentNameOptions = res1.data.map((i: { subName: any; id: any; }) => {
+                return {
+                    label: i.subName,
+                    value: i.id
+                }
+            })
+            // 获取协议类型
+            let res2 = await selectDeviceProtocol()
+            this.dictItemProtocolOptions = res2.data.map((i: { dictItemName: any; dictItemCode: any; }) => {
+                return {
+                    label: i.dictItemName,
+                    value: i.dictItemCode
+                }
+            })
+            // 获取设备型号
+            let res3 = await selectDeviceModel()
+            this.dictItemModelOptions = res3.data.map((i: { dictItemName: any; dictItemCode: any; }) => {
+                return {
+                    label: i.dictItemName,
+                    value: i.dictItemCode
+                }
+            })
+            // 获取设备厂商
+            let res4 = await selectDeviceBrand()
+            this.dictItemBrandOptions = res4.data.map((i: { dictItemName: any; dictItemCode: any; }) => {
+                return {
+                    label: i.dictItemName,
+                    value: i.dictItemCode
+                }
+            })
+            // 获取所属场站
+            let res5 = await selectDeviceBaseName()
+            this.baseNameOptions = res5.data.map((i: { baseName: any; id: any; }) => {
+                return {
+                    label: i.baseName,
+                    value: i.id
+                }
+            })
         },
         async delData() {
             let res = await removeItem(this.checkedRowKeysRef)
@@ -162,9 +238,74 @@ export const equipmentStore = defineStore({
                 return res.msg
             }
         },
-        change() {
+        async editItem(id: any) {
+            let info = await getItem(id)
+            await this.resetInfo()
+            await this.getAddData()
+            this.changeInfo.type = info.data.type
+            this.changeInfo.itemNo = info.data.itemNo
+            this.changeInfo.subName = info.data.subName
+            this.changeInfo.port = info.data.port
+            this.changeInfo.host = info.data.host
+            this.changeInfo.freq = info.data.freq
+            this.changeInfo.parentName = info.data.parentName
+            this.changeInfo.protocol = info.data.protocol
+            this.changeInfo.model = info.data.model
+            this.changeInfo.brand = info.data.brand
+            this.changeInfo.createTime = info.data.createTime
+            this.changeInfo.baseName = info.data.baseName
+            this.changeInfo.slave = info.data.slave
+            this.changeInfo.orgId = info.data.orgId
+            this.changeInfo.id = info.data.id
+        },
+        async addItem() {
+            await this.resetInfo()
+            // 为新建的设备获取编号
+            let res = await getDeviceNo()
+            this.changeInfo.itemNo = res.data
+            await this.getAddData()
 
         },
-
+        resetInfo() {
+            this.changeInfo.type = null
+            this.changeInfo.itemNo = ''
+            this.changeInfo.subName = ''
+            this.changeInfo.port = ''
+            this.changeInfo.host = ''
+            this.changeInfo.freq = ''
+            this.changeInfo.parentName = ''
+            this.changeInfo.dictItemProtocol = ''
+            this.changeInfo.dictItemModel = ''
+            this.changeInfo.dictItemBrand = ''
+            this.changeInfo.createTime = null
+            this.changeInfo.baseName = ''
+            this.changeInfo.slave = ''
+        },
+        async updateItem(){
+            const info = {
+                brand:this.changeInfo.brand,
+                createTime:this.changeInfo.createTime,
+                freq:this.changeInfo.freq,
+                host:this.changeInfo.host,
+                id:this.changeInfo.id,
+                itemNo:this.changeInfo.itemNo,
+                model:this.changeInfo.model,
+                orgId:this.changeInfo.orgId,
+                parentId:this.changeInfo.parentId,
+                port:this.changeInfo.port,
+                protocol:this.changeInfo.protocol,
+                slave:this.changeInfo.slave,
+                subName:this.changeInfo.subName,
+                type:this.changeInfo.type
+            }
+            let isOK = await updateItem(info)
+            if(isOK.data==1){
+                message.success("保存成功！")
+                return true
+            }else{
+                message.error('保存失败！'+isOK.msg)
+                return false
+            }
+        }
     }
 })

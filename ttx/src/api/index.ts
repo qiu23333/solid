@@ -139,11 +139,86 @@ export const getDeviceNo = () => {
 export const selectDeviceParent = () => {
     return requests({
         url: 'device/deviceSub/selectDeviceParent',
-        method:'get',
+        method: 'get',
         headers: {
             Authorization: localStorage.getItem("tk")
         }
     })
 
 
+}
+// 获取协议类型列表
+export const selectDeviceProtocol = () => {
+    return requests({
+        url: 'device/deviceSub/selectDeviceDictItem',
+        method: 'get',
+        headers: {
+            Authorization: localStorage.getItem("tk")
+        },
+        params: {
+            dictCode: 'device_protocol',
+            dictName: '协议类型'
+        }
+    })
+}
+// 获取协议类型列表
+export const selectDeviceModel = () => {
+    return requests({
+        url: 'device/deviceSub/selectDeviceDictItem',
+        method: 'get',
+        headers: {
+            Authorization: localStorage.getItem("tk")
+        },
+        params: {
+            dictCode: 'device_model',
+            dictName: '设备型号'
+        }
+    })
+}
+// 获取设备厂商列表
+export const selectDeviceBrand = () => {
+    return requests({
+        url: 'device/deviceSub/selectDeviceDictItem',
+        method: 'get',
+        headers: {
+            Authorization: localStorage.getItem("tk")
+        },
+        params: {
+            dictCode: 'device_brand',
+            dictName: '品牌'
+        }
+    })
+}
+// 获取设备厂商列表
+export const selectDeviceBaseName = () => {
+    return requests({
+        url: 'device/deviceOrg/selectBaseName',
+        method: 'get',
+        headers: {
+            Authorization: localStorage.getItem("tk")
+        },
+        params: {
+            
+        }
+    })
+}
+// 新增设备
+
+// 更新（编辑）设备
+export const updateItem=(info: any)=>{
+    return requests({
+        url: 'device/deviceSub/updateSysDept',
+        method: 'post',
+        headers: {
+            Authorization: localStorage.getItem("tk")
+        },
+        // get参数
+        // params: {
+        //     ...info
+        // },
+        // post传参
+        data:{
+            ...info
+        }
+    })
 }

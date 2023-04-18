@@ -1,9 +1,9 @@
 <template>
   <div class="relative w-11/12 m-auto bg-white">
-    <n-modal v-model:show="showModal" class="w-2/3 bg-white h-1/2">
+     <n-modal v-model:show="showModal" class="w-2/3 bg-white h-1/2">
       <n-form
         class="relative"
-        :bordered="false"
+        role="dialog"
         size="medium"
         label-placement="left"
         label-width="110"
@@ -11,79 +11,85 @@
         <div class="mt-4 ml-5 text-lg">新建设备</div>
         <n-divider class="bg-gary-500" />
         <n-grid :cols="24" :x-gap="2" collapsed-rows:5>
-          <n-form-item-gi :span="12" label="类型选择" class="mt-5 ml-28 w-72">
+          <n-form-item-gi :span="12" label="类型选择" class="mt-5 ml-20 w-80">
             <n-select
               clearable
-              showRequireMark:true
+              :showRequireMark="true"
               :options="typeOptions"
               v-model:value="changeInfo.type"
             />
           </n-form-item-gi>
-          <n-form-item-gi :span="12" label="设备编号" class="mt-5 ml-20 w-72">
+          <n-form-item-gi :span="12" label="设备编号" class="mt-5 ml-20 w-80">
             <n-input disabled v-model:value="changeInfo.itemNo" />
           </n-form-item-gi>
-          <n-form-item-gi :span="12" label="设备名称" class="mt-5 ml-28 w-72">
-            <n-input v-model:value="changeInfo.subName" />
+          <n-form-item-gi :span="12" label="设备名称" class="mt-5 ml-20 w-80">
+            <n-input  clearable />
           </n-form-item-gi>
-          <n-form-item-gi :span="12" label="通讯地址" class="mt-5 ml-20 w-72">
+          <n-form-item-gi :span="12" label="通讯地址" class="mt-5 ml-20 w-80">
             <n-input v-model:value="changeInfo.host" />
           </n-form-item-gi>
-          <n-form-item-gi :span="12" label="端口号" class="mt-5 ml-28 w-72">
+          <n-form-item-gi :span="12" label="端口号" class="mt-5 ml-20 w-80">
             <n-input v-model:value="changeInfo.port" />
           </n-form-item-gi>
-          <n-form-item-gi :span="12" label="采集步长" class="mt-5 ml-20 w-72">
-            <n-input v-model:value="changeInfo.freq">
-              <template #suffix>
-                <n-icon />
-              </template>
-            </n-input>
+          <n-form-item-gi :span="12" label="采集步长" class="mt-5 ml-20 w-80">
+            <n-input v-model:value="changeInfo.freq"> </n-input>
           </n-form-item-gi>
-          <n-form-item-gi :span="12" label="父级设备" class="mt-5 ml-28 w-72">
+          <n-form-item-gi :span="12" label="父级设备" class="mt-5 ml-20 w-80">
             <n-select
               :options="parentNameOptions"
               v-model:value="changeInfo.parentName"
             />
           </n-form-item-gi>
-          <n-form-item-gi :span="12" label="协议类型" class="mt-5 ml-20 w-72">
+          <n-form-item-gi :span="12" label="协议类型" class="mt-5 ml-20 w-80">
             <n-select
-              :options="dictItemNameOptions"
-              v-model:value="changeInfo.dictItemName"
+              :options="dictItemProtocolOptions"
+              v-model:value="changeInfo.protocol"
             />
           </n-form-item-gi>
-          <n-form-item-gi :span="12" label="设备型号" class="mt-5 ml-28 w-72">
+          <n-form-item-gi :span="12" label="设备型号" class="mt-5 ml-20 w-80">
             <n-select
-              :options="parentNameOptions"
-              v-model:value="changeInfo.parentName"
+              :options="dictItemModelOptions"
+              v-model:value="changeInfo.model"
             />
           </n-form-item-gi>
-          <n-form-item-gi :span="12" label="设备厂商" class="mt-5 ml-20 w-72">
+          <n-form-item-gi :span="12" label="设备厂商" class="mt-5 ml-20 w-80">
             <n-select
-              :options="dictItemNameOptions"
-              v-model:value="changeInfo.dictItemName"
+              :options="dictItemBrandOptions"
+              v-model:value="changeInfo.brand"
             />
           </n-form-item-gi>
-          <n-form-item-gi :span="12" label="创建时间" class="mt-5 ml-28 w-72">
-            <n-select
-              :options="parentNameOptions"
-              v-model:value="changeInfo.createTime"
+          <n-form-item-gi :span="12" label="创建时间" class="mt-5 ml-20 w-80">
+            <n-date-picker
+              v-model:formatted-value="changeInfo.createTime"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              type="datetime"
+              size="large"
+              clearable
             />
           </n-form-item-gi>
           <n-form-item-gi
             :span="12"
             label="设备所属场站"
-            class="mt-5 ml-20 w-72"
+            class="mt-5 ml-20 w-80"
           >
             <n-select
               :options="baseNameOptions"
               v-model:value="changeInfo.baseName"
             />
           </n-form-item-gi>
-          <n-form-item-gi :span="12" label="从站号" class="mt-5 ml-28 w-72">
+          <n-form-item-gi :span="12" label="从站号" class="mt-5 ml-20 w-80">
             <n-input v-model:value="changeInfo.slave" />
           </n-form-item-gi>
         </n-grid>
         <div class="absolute bottom-0 mt-2 space-x-3 font-sans mb-7 right-10">
-          <n-button type="primary" ghost text-color="black"> 取消 </n-button>
+          <n-button
+            type="primary"
+            ghost
+            text-color="black"
+            @click="equipment.showModal = false"
+          >
+            取消
+          </n-button>
           <n-button type="primary" ghost text-color="black">
             测试链接
           </n-button>
@@ -92,6 +98,323 @@
         <n-divider class="mb-10 bg-gary-500" />
       </n-form>
     </n-modal>
+    <!-- <n-drawer v-model:show="showModal" :width="1100">
+      <n-drawer-content>
+        <n-form
+          class="relative"
+          role="dialog"
+          size="medium"
+          label-placement="left"
+          label-width="110"
+        >
+          <div class="mt-4 ml-5 text-lg">新建设备</div>
+          <n-divider class="bg-gary-500" />
+          <n-grid :cols="24" :x-gap="2" collapsed-rows:5>
+            <n-form-item-gi :span="12" label="类型选择" class="mt-5 ml-20 w-80">
+              <n-select
+                clearable
+                :showRequireMark="true"
+                :options="typeOptions"
+                v-model:value="changeInfo.type"
+              />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="设备编号" class="mt-5 ml-20 w-80">
+              <n-input disabled v-model:value="changeInfo.itemNo" clearable />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="设备名称" class="mt-5 ml-20 w-80">
+              <n-input v-model:value="changeInfo.subName" clearable />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="通讯地址" class="mt-5 ml-20 w-80">
+              <n-input v-model:value="changeInfo.host" clearable />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="端口号" class="mt-5 ml-20 w-80">
+              <n-input v-model:value="changeInfo.port" clearable />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="采集步长" class="mt-5 ml-20 w-80">
+              <n-input v-model:value="changeInfo.freq" clearable> </n-input>
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="父级设备" class="mt-5 ml-20 w-80">
+              <n-select
+                :options="parentNameOptions"
+                v-model:value="changeInfo.parentName"
+                clearable
+              />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="协议类型" class="mt-5 ml-20 w-80">
+              <n-select
+                :options="dictItemProtocolOptions"
+                v-model:value="changeInfo.protocol"
+                clearable
+              />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="设备型号" class="mt-5 ml-20 w-80">
+              <n-select
+                :options="dictItemModelOptions"
+                v-model:value="changeInfo.model"
+                clearable
+              />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="设备厂商" class="mt-5 ml-20 w-80">
+              <n-select
+                :options="dictItemBrandOptions"
+                v-model:value="changeInfo.brand"
+                clearable
+              />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="创建时间" class="mt-5 ml-20 w-80">
+              <n-date-picker
+                v-model:formatted-value="changeInfo.createTime"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                type="datetime"
+                size="large"
+                clearable
+              />
+            </n-form-item-gi>
+            <n-form-item-gi
+              :span="12"
+              label="设备所属场站"
+              class="mt-5 ml-20 w-80"
+            >
+              <n-select
+                :options="baseNameOptions"
+                v-model:value="changeInfo.baseName"
+                clearable
+              />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="从站号" class="mt-5 ml-20 w-80">
+              <n-input v-model:value="changeInfo.slave" clearable />
+            </n-form-item-gi>
+          </n-grid>
+          <div class="absolute bottom-0 mt-2 space-x-3 font-sans mb-7 right-10">
+            <n-button
+              type="primary"
+              ghost
+              text-color="black"
+              @click="equipment.showModal = false"
+            >
+              取消
+            </n-button>
+            <n-button type="primary" ghost text-color="black">
+              测试链接
+            </n-button>
+            <n-button type="info" class="bg-blue-400"> 保存 </n-button>
+          </div>
+          <n-divider class="mb-10 bg-gary-500" />
+        </n-form>
+      </n-drawer-content>
+    </n-drawer> -->
+    <!-- <n-modal v-model:show="showEdit" class="w-2/3 bg-white h-1/2">
+      <n-form
+        class="relative font-sans"
+        :bordered="false"
+        size="medium"
+        label-placement="left"
+        label-width="110"
+      >
+        <div class="mt-4 ml-5 text-lg">编辑设备</div>
+        <n-divider class="bg-gary-500" />
+        <n-grid :cols="24" :x-gap="2" collapsed-rows:5>
+          <n-form-item-gi :span="12" label="类型选择" class="mt-5 ml-20 w-80">
+            <n-select
+              clearable
+              showRequireMark:true
+              :options="typeOptions"
+              v-model:value="changeInfo.type"
+            />
+          </n-form-item-gi>
+          <n-form-item-gi :span="12" label="设备编号" class="mt-5 ml-20 w-80">
+            <n-input disabled v-model:value="changeInfo.itemNo" clearable />
+          </n-form-item-gi>
+          <n-form-item-gi :span="12" label="设备名称" class="mt-5 ml-20 w-80">
+            <n-input v-model:value="changeInfo.subName" clearable />
+          </n-form-item-gi>
+          <n-form-item-gi :span="12" label="通讯地址" class="mt-5 ml-20 w-80">
+            <n-input v-model:value="changeInfo.host" clearable />
+          </n-form-item-gi>
+          <n-form-item-gi :span="12" label="端口号" class="mt-5 ml-20 w-80">
+            <n-input v-model:value="changeInfo.port" clearable />
+          </n-form-item-gi>
+          <n-form-item-gi :span="12" label="采集步长" class="mt-5 ml-20 w-80">
+            <n-input v-model:value="changeInfo.freq" />
+          </n-form-item-gi>
+          <n-form-item-gi :span="12" label="父级设备" class="mt-5 ml-20 w-80">
+            <n-select
+              :options="parentNameOptions"
+              v-model:value="changeInfo.parentName"
+              clearable
+            />
+          </n-form-item-gi>
+          <n-form-item-gi :span="12" label="协议类型" class="mt-5 ml-20 w-80">
+            <n-select
+              :options="dictItemProtocolOptions"
+              v-model:value="changeInfo.protocol"
+              clearable
+            />
+          </n-form-item-gi>
+          <n-form-item-gi :span="12" label="设备型号" class="mt-5 ml-20 w-80">
+            <n-select
+              :options="dictItemModelOptions"
+              v-model:value="changeInfo.model"
+              clearable
+            />
+          </n-form-item-gi>
+          <n-form-item-gi :span="12" label="设备厂商" class="mt-5 ml-20 w-80">
+            <n-select
+              :options="dictItemBrandOptions"
+              v-model:value="changeInfo.brand"
+              clearable
+            />
+          </n-form-item-gi>
+          <n-form-item-gi :span="12" label="创建时间" class="mt-5 ml-20 w-80">
+            <n-date-picker
+              v-model:formatted-value="changeInfo.createTime"
+              value-format="yyyy-MM-dd HH:mm:ss"
+              type="datetime"
+              size="large"
+              clearable
+            />
+          </n-form-item-gi>
+          <n-form-item-gi
+            :span="12"
+            label="设备所属场站"
+            class="mt-5 ml-20 w-80"
+            clearable
+          >
+            <n-select
+              :options="baseNameOptions"
+              v-model:value="changeInfo.baseName"
+              clearable
+            />
+          </n-form-item-gi>
+          <n-form-item-gi :span="12" label="从站号" class="mt-5 ml-20 w-80">
+            <n-input v-model:value="changeInfo.slave" clearable />
+          </n-form-item-gi>
+        </n-grid>
+
+        <div class="absolute bottom-0 mt-2 space-x-3 font-sans mb-7 right-10">
+          <n-button
+            type="primary"
+            ghost
+            text-color="black"
+            @click="equipment.showEdit = false"
+          >
+            取消
+          </n-button>
+          <n-button type="info" class="bg-blue-400"> 保存 </n-button>
+        </div>
+        <n-divider class="mb-10 bg-gary-500" />
+      </n-form>
+    </n-modal> -->
+    <n-drawer v-model:show="showEdit" :width="1100">
+      <n-drawer-content>
+        <n-form
+          class="relative font-sans"
+          :bordered="false"                       
+          size="medium"
+          label-placement="left"
+          label-width="110"
+        >
+          <div class="mt-4 ml-5 text-lg">编辑设备</div>
+          <n-divider class="bg-gary-500" />
+          <n-grid :cols="24" :x-gap="2" collapsed-rows:5>
+            <n-form-item-gi :span="12" label="类型选择" class="mt-5 ml-20 w-80">
+              <n-select
+                clearable
+                showRequireMark:true
+                :options="typeOptions"
+                v-model:value="changeInfo.type"
+              />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="设备编号" class="mt-5 ml-20 w-80">
+              <n-input disabled v-model:value="changeInfo.itemNo" clearable />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="设备名称" class="mt-5 ml-20 w-80">
+              <n-input v-model:value="changeInfo.subName" clearable />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="通讯地址" class="mt-5 ml-20 w-80">
+              <n-input v-model:value="changeInfo.host" clearable />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="端口号" class="mt-5 ml-20 w-80">
+              <n-input v-model:value="changeInfo.port" clearable />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="采集步长" class="mt-5 ml-20 w-80">
+              <n-input v-model:value="changeInfo.freq" clearable />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="父级设备" class="mt-5 ml-20 w-80">
+              <n-select
+                :options="parentNameOptions"
+                v-model:value="changeInfo.parentName"
+                clearable
+              />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="协议类型" class="mt-5 ml-20 w-80">
+              <n-select
+                :options="dictItemProtocolOptions"
+                v-model:value="changeInfo.protocol"
+                clearable
+              />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="设备型号" class="mt-5 ml-20 w-80">
+              <n-select
+                :options="dictItemModelOptions"
+                v-model:value="changeInfo.model"
+                clearable
+              />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="设备厂商" class="mt-5 ml-20 w-80">
+              <n-select
+                :options="dictItemBrandOptions"
+                v-model:value="changeInfo.brand"
+                clearable
+              />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="创建时间" class="mt-5 ml-20 w-80">
+              <n-date-picker
+                v-model:formatted-value="changeInfo.createTime"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                type="datetime"
+                size="large"
+                clearable
+              />
+            </n-form-item-gi>
+            <n-form-item-gi
+              :span="12"
+              label="设备所属场站"
+              class="mt-5 ml-20 w-80"
+              clearable
+            >
+              <n-select
+                :options="baseNameOptions"
+                v-model:value="changeInfo.baseName"
+                clearable
+              />
+            </n-form-item-gi>
+            <n-form-item-gi :span="12" label="从站号" class="mt-5 ml-20 w-80">
+              <n-input v-model:value="changeInfo.slave" clearable />
+            </n-form-item-gi>
+          </n-grid>
+
+          <div class="absolute bottom-0 mt-2 space-x-3 font-sans mb-7 right-10">
+            <n-button
+              type="primary"
+              ghost
+              text-color="black"
+              @click="equipment.showEdit = false"
+            >
+              取消
+            </n-button>
+            <n-button
+              type="info"
+              class="bg-blue-400"
+              @click="handleEdit"
+            >
+              保存
+            </n-button>
+          </div>
+          <n-divider class="mb-10 bg-gary-500" />
+        </n-form>
+      </n-drawer-content>
+    </n-drawer>
     <n-space class="relative bg-white">
       <n-space inline class="mt-2 space-x-2 font-sans">
         <div class="mt-2 ml-7">设备管理</div>
@@ -132,22 +455,22 @@ import { NButton } from "naive-ui";
 import { equipmentStore } from "../store/equipment";
 import { storeToRefs } from "pinia";
 import { onMountedOrActivated } from "/@/hooks/core/onMountedOrActivated";
-import { getItem } from "/@/api";
 import pagination from "./pagination/pagination.vue";
-import addForm from "./form/addForm.vue";
 import type { DataTableRowKey } from "naive-ui";
-import { h } from "vue";
-import { render } from "naive-ui/es/_utils";
 import { dialog, message } from "/@/components/Dialog";
 const equipment = equipmentStore();
+let info = ref("");
 let {
   data,
   loading,
   showModal,
+  showEdit,
   changeInfo,
   parentNameOptions,
-  dictItemNameOptions,
+  dictItemProtocolOptions,
   baseNameOptions,
+  dictItemModelOptions,
+  dictItemBrandOptions,
 } = storeToRefs(equipment);
 let typeOptions = reactive([
   {
@@ -228,36 +551,20 @@ function handleCheck(rowKeys: DataTableRowKey[]) {
   equipment.checkedRowKeysRef = rowKeys.join(",");
 }
 async function Edit(rowData: any) {
-  // console.log("send mail to " + rowData.id);
-  let res = await getItem(rowData.id);
-  console.log(res.data);
-  dialog.warning({
-    title: "编辑设备",
-    positiveText: "确定",
-    closable: false,
-    // showIcon:false,
-    positiveButtonProps: {
-      type: "success",
-      // round: true,
-      ghost: true,
-    },
-    negativeText: "取消",
-    negativeButtonProps: {
-      type: "warning",
-      round: true,
-      ghost: true,
-    },
-    onPositiveClick: () => {
-      message.success("成了");
-    },
-    onNegativeClick: () => {
-      message.warning("寄寄");
-    },
-  });
+  equipment.showEdit = true;
+  equipment.editItem(rowData.id);
 }
 function add() {
   equipment.showModal = true;
-  equipment.addData();
+  equipment.addItem();
+}
+function handleAdd() {}
+async function handleEdit() {
+  let res = await equipment.updateItem()
+  if( res==true){
+    equipment.showEdit = false
+    equipment.getData(equipment.page,equipment.pageSize)
+  }
 }
 function handleConfirm() {
   dialog.warning({
@@ -301,6 +608,7 @@ async function del() {
 
 onMountedOrActivated(async () => {
   await equipment.getData(1, equipment.pageSize);
+  // await equipment.getAddData()
 });
 </script>
 
