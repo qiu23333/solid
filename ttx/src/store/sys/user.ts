@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import { reactive } from "vue";
 import { login, logout, getUserInfo, getCaptchImage } from "../../api/index";
-
+import { message } from "/@/components/Dialog";
 export interface LoginParams {
     grantType: string;
     username: string;
@@ -36,19 +36,19 @@ export const userStore = defineStore({
     actions: {
         async login(v: globalThis.Ref<string>) {
             const res = await login(this.loginInfo.user.captcha, v.value)
-            if (res.data.code == 400) {
+            if (res.data == '') {
                 getCaptchImage()
                 this.loginInfo.user.captcha = ''
-                return null
+                message.error('登录失败')
+                // return null
             } else {
                 localStorage.setItem("tk", res.data.token || null)
-                console.log("登录捏")
-                // console.log(res.data.token)
                 console.log(localStorage.getItem("tk"))
+                message.success('登录成功')
                 this.userInfo.isLogin = true
                 let re = await getUserInfo()
                 this.userInfo = { ...this.userInfo, ...re.data }
-                console.log("re:" + re.data)
+                // console.log("re:" + re.data)
                 // return this.afterLogin()
             }
         },

@@ -56,20 +56,16 @@ let { loginInfo } = storeToRefs(user);
 
 async function login() {
   await user.login(verification);
-  if (user.userInfo.isLogin) {
+  if (user.userInfo.isLogin == true) {
     router.push({
       name: "customer",
       path: "/cuntomer",
     });
   } else {
-    // console.log(user.userInfo.isLogin);
-    alert("过不去嗷，傻杯");
   }
 }
 async function refreshCaptch() {
-  // console.log("@@@@@")
   const res = await getCaptchImage();
-  // console.log(res)
   const { imgId, img } = res.data;
   imgSrc.value = img;
   verification.value = imgId;
