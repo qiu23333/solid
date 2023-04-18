@@ -167,14 +167,12 @@
         <div class="absolute right-0">
           <n-space>
             <n-button class="bg-blue-400" @click="add" type="info"
-              >新增设备</n-button
-            >
+              >新增设备</n-button>
             <n-button
               @click="handleConfirm"
               class="mr-5 bg-red-400"
               type="error"
-              >删除设备</n-button
-            >
+              >删除设备</n-button>
           </n-space>
         </div>
       </n-space>
@@ -195,7 +193,6 @@
     </n-space>
   </div>
 </template>
-
 <script setup lang="ts">
 import { NButton } from "naive-ui";
 import { equipmentStore } from "../store/equipment";
@@ -306,7 +303,6 @@ function add() {
   equipment.showModal = true;
   equipment.add();
 }
-async function handleAdd() {}
 async function handle() {
   if (isadd == true) {
     let res = await equipment.addItem();

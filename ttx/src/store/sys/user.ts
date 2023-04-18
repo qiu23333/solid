@@ -48,17 +48,6 @@ export const userStore = defineStore({
                 this.userInfo.isLogin = true
                 let re = await getUserInfo()
                 this.userInfo = { ...this.userInfo, ...re.data }
-                // console.log("re:" + re.data)
-                // return this.afterLogin()
-            }
-        },
-        async afterLogin() {
-
-            if (localStorage.getItem("tk")) {
-                this.userInfo.isLogin = true
-            } else {
-                alert("真成了？")
-                return null
             }
         },
         async logout() {
