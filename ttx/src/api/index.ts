@@ -198,14 +198,30 @@ export const selectDeviceBaseName = () => {
             Authorization: localStorage.getItem("tk")
         },
         params: {
-            
+
         }
     })
 }
 // 新增设备
-
+export const addItem = (info: any) => {
+    return requests({
+        url: 'device/deviceSub/addDevice',
+        method: 'post',
+        headers: {
+            Authorization: localStorage.getItem("tk")
+        },
+        // get参数
+        // params: {
+        //     ...info
+        // },
+        // post传参
+        data: {
+            ...info
+        }
+    })
+}
 // 更新（编辑）设备
-export const updateItem=(info: any)=>{
+export const updateItem = (info: any) => {
     return requests({
         url: 'device/deviceSub/updateSysDept',
         method: 'post',
@@ -217,8 +233,26 @@ export const updateItem=(info: any)=>{
         //     ...info
         // },
         // post传参
-        data:{
+        data: {
             ...info
         }
+    })
+}
+// 测试链接
+export const testConnect = (info:any)=>{
+    return requests({
+        url:'device/deviceModbus/testConnect',
+        method: 'get',
+        headers: {
+            Authorization: localStorage.getItem("tk")
+        },
+        // get参数
+        params: {
+            ...info
+        },
+        // post传参
+        // data: {
+        //     ...info
+        // }
     })
 }

@@ -1,6 +1,6 @@
 <template>
   <div class="relative w-11/12 m-auto bg-white">
-     <n-modal v-model:show="showModal" class="w-2/3 bg-white h-1/2">
+    <!-- <n-modal v-model:show="showModal" class="w-2/3 bg-white h-1/2">
       <n-form
         class="relative"
         role="dialog"
@@ -97,8 +97,8 @@
         </div>
         <n-divider class="mb-10 bg-gary-500" />
       </n-form>
-    </n-modal>
-    <!-- <n-drawer v-model:show="showModal" :width="1100">
+    </n-modal> -->
+    <n-drawer v-model:show="showModal" :width="1100">
       <n-drawer-content>
         <n-form
           class="relative"
@@ -177,7 +177,7 @@
             >
               <n-select
                 :options="baseNameOptions"
-                v-model:value="changeInfo.baseName"
+                v-model:value="changeInfo.orgId"
                 clearable
               />
             </n-form-item-gi>
@@ -194,7 +194,12 @@
             >
               取消
             </n-button>
-            <n-button type="primary" ghost text-color="black">
+            <n-button
+              type="primary"
+              ghost
+              text-color="black"
+              @click="handleTest"
+            >
               测试链接
             </n-button>
             <n-button type="info" class="bg-blue-400"> 保存 </n-button>
@@ -202,7 +207,7 @@
           <n-divider class="mb-10 bg-gary-500" />
         </n-form>
       </n-drawer-content>
-    </n-drawer> -->
+    </n-drawer>
     <!-- <n-modal v-model:show="showEdit" class="w-2/3 bg-white h-1/2">
       <n-form
         class="relative font-sans"
@@ -309,7 +314,7 @@
       <n-drawer-content>
         <n-form
           class="relative font-sans"
-          :bordered="false"                       
+          :bordered="false"
           size="medium"
           label-placement="left"
           label-width="110"
@@ -403,11 +408,7 @@
             >
               取消
             </n-button>
-            <n-button
-              type="info"
-              class="bg-blue-400"
-              @click="handleEdit"
-            >
+            <n-button type="info" class="bg-blue-400" @click="handleEdit">
               保存
             </n-button>
           </div>
@@ -459,7 +460,7 @@ import pagination from "./pagination/pagination.vue";
 import type { DataTableRowKey } from "naive-ui";
 import { dialog, message } from "/@/components/Dialog";
 const equipment = equipmentStore();
-let info = ref("");
+// let info = ref("");
 let {
   data,
   loading,
@@ -556,15 +557,24 @@ async function Edit(rowData: any) {
 }
 function add() {
   equipment.showModal = true;
-  equipment.addItem();
+  equipment.add();
 }
-function handleAdd() {}
-async function handleEdit() {
-  let res = await equipment.updateItem()
-  if( res==true){
-    equipment.showEdit = false
-    equipment.getData(equipment.page,equipment.pageSize)
+async function handleAdd() {
+  let res = await equipment.addItem();
+  if (res == true) {
+    equipment.showEdit = false;
+    equipment.getData(equipment.page, equipment.pageSize);
   }
+}
+async function handleEdit() {
+  let res = await equipment.updateItem();
+  if (res == true) {
+    equipment.showEdit = false;
+    equipment.getData(equipment.page, equipment.pageSize);
+  }
+}
+async function handleTest() {
+  await equipment.test();
 }
 function handleConfirm() {
   dialog.warning({

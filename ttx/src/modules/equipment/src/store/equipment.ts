@@ -1,7 +1,20 @@
 import { defineStore } from "pinia";
-import { getData, removeItem, getDeviceNo, selectDeviceParent, selectDeviceProtocol, selectDeviceModel, selectDeviceBrand, selectDeviceBaseName, getItem, updateItem } from "/@/api";
-// import { enums } from "/@/locales";
-import { message } from "/@/components/Dialog";
+import {
+    getData,
+    removeItem,
+    getDeviceNo,
+    selectDeviceParent,
+    selectDeviceProtocol,
+    selectDeviceModel,
+    selectDeviceBrand,
+    selectDeviceBaseName,
+    getItem,
+    updateItem,
+    addItem,
+    testConnect
+} from "/@/api";
+// import  enums  from "/@/locales/enums";
+import { message, notification } from "/@/components/Dialog";
 import { number } from "vue-types";
 import { FormRules } from "naive-ui";
 
@@ -66,7 +79,7 @@ export const equipmentStore = defineStore({
             orgId: '',
 
             // 
-            id:''
+            id: ''
         })
         let parentNameOptions = reactive([
             {}
@@ -258,7 +271,7 @@ export const equipmentStore = defineStore({
             this.changeInfo.orgId = info.data.orgId
             this.changeInfo.id = info.data.id
         },
-        async addItem() {
+        async add() {
             await this.resetInfo()
             // 为新建的设备获取编号
             let res = await getDeviceNo()
@@ -274,37 +287,77 @@ export const equipmentStore = defineStore({
             this.changeInfo.host = ''
             this.changeInfo.freq = ''
             this.changeInfo.parentName = ''
-            this.changeInfo.dictItemProtocol = ''
-            this.changeInfo.dictItemModel = ''
-            this.changeInfo.dictItemBrand = ''
+            this.changeInfo.protocol = ''
+            this.changeInfo.model = ''
+            this.changeInfo.brand = ''
             this.changeInfo.createTime = null
             this.changeInfo.baseName = ''
             this.changeInfo.slave = ''
+            this.changeInfo.orgId = ''
+            this.changeInfo.id = ''
         },
-        async updateItem(){
+        async updateItem() {
             const info = {
-                brand:this.changeInfo.brand,
-                createTime:this.changeInfo.createTime,
-                freq:this.changeInfo.freq,
-                host:this.changeInfo.host,
-                id:this.changeInfo.id,
-                itemNo:this.changeInfo.itemNo,
-                model:this.changeInfo.model,
-                orgId:this.changeInfo.orgId,
-                parentId:this.changeInfo.parentId,
-                port:this.changeInfo.port,
-                protocol:this.changeInfo.protocol,
-                slave:this.changeInfo.slave,
-                subName:this.changeInfo.subName,
-                type:this.changeInfo.type
+                brand: this.changeInfo.brand,
+                createTime: this.changeInfo.createTime,
+                freq: this.changeInfo.freq,
+                host: this.changeInfo.host,
+                id: this.changeInfo.id,
+                itemNo: this.changeInfo.itemNo,
+                model: this.changeInfo.model,
+                orgId: this.changeInfo.orgId,
+                parentId: this.changeInfo.parentId,
+                port: this.changeInfo.port,
+                protocol: this.changeInfo.protocol,
+                slave: this.changeInfo.slave,
+                subName: this.changeInfo.subName,
+                type: this.changeInfo.type
             }
             let isOK = await updateItem(info)
-            if(isOK.data==1){
+            if (isOK.data == 1) {
                 message.success("保存成功！")
                 return true
-            }else{
-                message.error('保存失败！'+isOK.msg)
+            } else {
+                message.error('保存失败！')
                 return false
+            }
+        },
+        async addItem() {
+            const info = {
+                brand: this.changeInfo.brand,
+                createTime: this.changeInfo.createTime,
+                freq: this.changeInfo.freq,
+                host: this.changeInfo.host,
+                id: this.changeInfo.id,
+                itemNo: this.changeInfo.itemNo,
+                model: this.changeInfo.model,
+                orgId: this.changeInfo.orgId,
+                parentId: this.changeInfo.parentId,
+                port: this.changeInfo.port,
+                protocol: this.changeInfo.protocol,
+                slave: this.changeInfo.slave,
+                subName: this.changeInfo.subName,
+                type: this.changeInfo.type
+            }
+            let isOK = await addItem(info)
+            if (isOK.data == 1) {
+                message.success("添加成功！")
+                return true
+            } else {
+                message.error('添加失败！')
+                return false
+            }
+        },
+        async test() {
+            const info = {
+                host: this.changeInfo.host,
+                port: this.changeInfo.port,
+            }
+            let isOK = await testConnect(info)
+            if (isOK.data == true) {
+                message.success("链接成功！")
+            } else {
+                message.error("链接失败！")
             }
         }
     }
