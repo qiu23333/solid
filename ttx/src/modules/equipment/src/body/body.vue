@@ -1,8 +1,8 @@
 <template>
   <div class="relative w-11/12 m-auto bg-white">
-    <n-modal v-model:show="showModal" class="w-2/3 bg-white h-1/2">
+    <n-modal v-model:show="showModal" class="w-2/3 bg-white h-1/2" :mask-closable="false">
       <div>
-        <n-form
+        <!-- <n-form
           class="relative font-sans"
           :bordered="false"
           size="medium"
@@ -12,7 +12,8 @@
         >
           <div class="mt-4 ml-5 text-lg">编辑设备</div>
           <n-divider class="bg-gary-500" />
-          <n-grid :cols="24" :x-gap="2" collapsed-rows:5>
+          <n-form-item label="">
+           <n-grid :cols="24" :x-gap="2" collapsed-rows:5>
             <n-form-item-gi
               :span="12"
               path="type"
@@ -135,6 +136,7 @@
               <n-input v-model:value="changeInfo.slave" clearable />
             </n-form-item-gi>
           </n-grid>
+        </n-form-item>
 
           <div class="absolute bottom-0 mt-2 space-x-3 font-sans mb-7 right-10">
             <n-button
@@ -158,7 +160,15 @@
             </n-button>
           </div>
           <n-divider class="mb-10 bg-gary-500" />
-        </n-form>
+        </n-form> -->
+      <!-- <Iform :isadd="isadd" :id="id" /> -->
+      <!-- <useForm /> -->
+      <BasicForm
+          @register="register"
+          @submit="handleSubmit"
+          @reset="handleReset"
+        >
+        </BasicForm>
       </div>
     </n-modal>
     <n-space class="relative bg-white">
@@ -197,10 +207,16 @@
 import { NButton } from "naive-ui";
 import { equipmentStore } from "../store/equipment";
 import { storeToRefs } from "pinia";
+// @ts-ignore
 import { onMountedOrActivated } from "/@/hooks/core/onMountedOrActivated";
 import pagination from "./pagination/pagination.vue";
+import Iform from "./form/Iform.vue";
 import type { DataTableRowKey } from "naive-ui";
+// @ts-ignore
 import { dialog, message } from "/@/components/Dialog";
+// import  useForm  from "../../../../views/useForm.vue";
+// @ts-ignore
+import { BasicForm, FormSchema, useForm } from "/@/components/Form/index";
 const equipment = equipmentStore();
 let {
   data,
@@ -225,6 +241,7 @@ let typeOptions = reactive([
   },
 ]);
 let isadd = false;
+let id = null;
 const columns = [
   {
     type: "selection",
@@ -286,6 +303,160 @@ const columns = [
     },
   },
 ];
+const schemas: FormSchema[] = [
+  {
+    field: "name",
+    component: "NInput",
+    label: "姓名",
+    labelMessage: "热烈的🐎",
+    giProps: {
+      span: 1,
+    },
+    componentProps: {
+
+      placeholder: "请输入姓名",
+      onInput: (e: any) => {
+        console.log(e);
+      },
+    },
+    rules: [{ required: true, message: "请输入姓名", trigger: ["blur"] }],
+  },
+  {
+    field: "mobile",
+    component: "NInputNumber",
+    label: "手机",
+    componentProps: {
+      placeholder: "请输入手机号码",
+      showButton: false,
+      onInput: (e: any) => {
+        console.log(e);
+      },
+    },
+  },
+  {
+    field: "type",
+    component: "NSelect",
+    label: "类型",
+    giProps: {
+      //span: 24,
+    },
+    componentProps: {
+      placeholder: "请选择类型",
+      options: [
+        {
+          label: "舒适性",
+          value: 1,
+        },
+        {
+          label: "经济性",
+          value: 2,
+        },
+      ],
+      onUpdateValue: (e: any) => {
+        console.log(e);
+      },
+    },
+  },
+  {
+    field: "makeDate",
+    component: "NDatePicker",
+    label: "预约时间",
+    giProps: {
+      //span: 24,
+    },
+    defaultValue: 1183135260000,
+    componentProps: {
+      type: "date",
+      clearable: true,
+      onUpdateValue: (e: any) => {
+        console.log(e);
+      },
+    },
+  },
+  {
+    field: "makeTime",
+    component: "NTimePicker",
+    label: "停留时间",
+    giProps: {
+      //span: 24,
+    },
+    componentProps: {
+      clearable: true,
+      onUpdateValue: (e: any) => {
+        console.log(e);
+      },
+    },
+  },
+  {
+    field: "makeProject",
+    component: "NCheckbox",
+    label: "预约项目",
+    giProps: {
+      //span: 24,
+    },
+    componentProps: {
+      placeholder: "请选择预约项目",
+      options: [
+        {
+          label: "种牙",
+          value: 1,
+        },
+        {
+          label: "补牙",
+          value: 2,
+        },
+        {
+          label: "根管",
+          value: 3,
+        },
+      ],
+      onUpdateChecked: (e: any) => {
+        console.log(e);
+      },
+    },
+  },
+  {
+    field: "makeSource",
+    component: "NRadioGroup",
+    label: "来源",
+    giProps: {
+      //span: 24,
+    },
+    componentProps: {
+      options: [
+        {
+          label: "网上",
+          value: 1,
+        },
+        {
+          label: "门店",
+          value: 2,
+        },
+      ],
+      onUpdateChecked: (e: any) => {
+        console.log(e);
+      },
+    },
+  },
+];
+const [register, {}] = useForm({
+  gridProps: { cols: 2 },
+  collapsedRows: 3,
+  labelWidth: 120,
+  layout: "horizontal",
+  submitButtonText: "提交预约",
+  // submitButtonOptions: { ghost:true },
+  schemas,
+});
+
+function handleSubmit(values: Recordable) {
+  console.log(values);
+  message.success(JSON.stringify(values));
+}
+
+function handleReset(values: Recordable) {
+  console.log(values);
+}
 function rowKey(row: any) {
   // console.log(row)
   return row.id;
@@ -296,7 +467,8 @@ function handleCheck(rowKeys: DataTableRowKey[]) {
 async function Edit(rowData: any) {
   isadd = false;
   equipment.showModal = true;
-  equipment.editItem(rowData.id);
+  id = rowData.id
+  // equipment.editItem(rowData.id);
 }
 function add() {
   isadd = true;

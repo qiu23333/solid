@@ -17,6 +17,7 @@
       />
       <div class="mt-2 ml-5">设备编号</div>
       <n-input
+        label="设备编号"
         placeholder="请输入"
         clearable
         v-model:value="searchInfo.itemNo"
@@ -57,7 +58,7 @@ function reset() {
   equipment.searchInfo.baseName = "";
   equipment.searchInfo.type = null;
   equipment.searchInfo.itemNo = "";
-  equipment.getData(0, equipment.pageSize);
+  // equipment.getData(0, equipment.pageSize);
 }
 </script>
 

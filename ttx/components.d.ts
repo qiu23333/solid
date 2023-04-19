@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BasicDialog: typeof import('./src/components/Dialog/src/basicDialog.vue')['default']
     BasicForm: typeof import('./src/components/Form/src/BasicForm.vue')['default']
+    BasicFrom: typeof import('./src/components/Iform/src/BasicForm.vue')['default']
     Button: typeof import('./src/components/button/button.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Message: typeof import('./src/components/message/message.vue')['default']
@@ -35,6 +36,7 @@ declare module '@vue/runtime-core' {
     NFr: typeof import('naive-ui')['NFr']
     NFro: typeof import('naive-ui')['NFro']
     NGi: typeof import('naive-ui')['NGi']
+    NGird: typeof import('naive-ui')['NGird']
     NGrid: typeof import('naive-ui')['NGrid']
     NIcon: typeof import('naive-ui')['NIcon']
     NInput: typeof import('naive-ui')['NInput']

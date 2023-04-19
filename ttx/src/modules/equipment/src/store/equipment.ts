@@ -15,7 +15,7 @@ import {
 } from "/@/api";
 
 import { message } from "/@/components/Dialog";
-import { FormRules } from "naive-ui";
+import { FormItemRule, FormRules } from "naive-ui";
 
 export const equipmentStore = defineStore({
     id: 'equipment',
@@ -84,52 +84,111 @@ export const equipmentStore = defineStore({
             type: [{
                 required: true,
                 message: '请选择设备类型',
-
+                validator (value: any) {
+                    if (!value&&value!=='') {
+                      return new Error('请选择设备类型')
+                    } 
+                    return true
+                  },
                 trigger: ['input', 'blur']
             }],
             subName: [{
                 required: true,
                 message: '清输入设备名称',
+                validator (value: any) {
+                    if (value=='' || value==null) {
+                      return new Error('清输入设备名称')
+                    } 
+                    return true
+                  },
                 trigger: ['input', 'blur']
             }],
             host: [{
                 required: true,
                 message: '请输入通讯地址',
+                validator (value: any) {
+                    if (value=='' || value==null) {
+                      return new Error('请输入通讯地址')
+                    } 
+                    return true
+                  },
                 trigger: ['input', 'blur']
             }],
             port: [{
                 required: true,
                 message: '请输入端口号',
+                validator (value: any) {
+                    if (value=='' || value==null) {
+                      return new Error('请输入端口号')
+                    } 
+                    return true
+                  },
                 trigger: ['input', 'blur']
             }],
             freq: [{
                 required: true,
                 message: '请输入采集步长',
+                validator (value: any) {
+                    if (value=='' || value==null) {
+                      return new Error('请输入采集步长')
+                    } 
+                    return true
+                  },
                 trigger: ['input', 'blur']
             }],
             protocol: [{
                 required: true,
                 message: '请选择协议类型',
+                validator (value: any) {
+                    if (value=='' || value==null) {
+                      return new Error('请选择协议类型')
+                    } 
+                    return true
+                  },
                 trigger: ['input', 'blur']
             }],
             model: [{
                 required: true,
                 message: '请选择设备型号',
+                validator (value: any) {
+                    if (value=='' || value==null) {
+                      return new Error('请选择设备型号')
+                    } 
+                    return true
+                  },
                 trigger: ['input', 'blur']
             }],
             brand: [{
                 required: true,
                 message: '请选择设备厂商',
+                validator (value: any) {
+                    if (value=='' || value==null) {
+                      return new Error('请选择设备厂商')
+                    } 
+                    return true
+                  },
                 trigger: ['input', 'blur']
             }],
             baseName: [{
                 required: true,
                 message: '请选择设备所属场站',
+                validator (value: any) {
+                    if (value=='' || value==null) {
+                      return new Error('请选择设备所属场站')
+                    } 
+                    return true
+                  },
                 trigger: ['input', 'blur']
             }],
             slave: [{
                 required: true,
                 message: '请输入从站号',
+                validator (value: any) {
+                    if (value=='' || value==null ) {
+                      return new Error('请输入从站号')
+                    } 
+                    return true
+                  },
                 trigger: ['input', 'blur']
             }]
         }
@@ -279,7 +338,38 @@ export const equipmentStore = defineStore({
 
         },
         resetInfo() {
-            this.changeInfo = {}
+            this.changeInfo = {
+                // tcu/ncu
+            type: null,
+            // 设备编号
+            itemNo: '',
+            // 设备名称
+            subName: '',
+            // 端口号
+            port: '',
+            // 通讯地址
+            host: '',
+            // 采集步长
+            freq: '',
+            // 父级设备
+            parentId: '',
+            // 协议类型
+            protocol: '',
+            // 设备型号
+            model: '',
+            // 设备厂商
+            brand: '',
+            // 创建时间
+            createTime: null,
+            // 所属场站
+            baseName: '',
+            // 从站号
+            slave: '',
+            //场站id
+            orgId: '',
+            // 
+            id: ''
+            }
         },
         async updateItem() {
             const info = {

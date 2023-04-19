@@ -17,7 +17,9 @@
 </template>
 
 <script lang="ts" setup>
+// @ts-ignore
 import { BasicForm, FormSchema, useForm } from "/@/components/Form/index";
+// @ts-ignore
 import { message } from "/@/components/Dialog"
 
 const schemas: FormSchema[] = [
@@ -167,12 +169,12 @@ const schemas: FormSchema[] = [
 
 
 const [register, {}] = useForm({
-  gridProps: { cols: 1 },
+  gridProps: { cols: 2 },
   collapsedRows: 3,
   labelWidth: 120,
   layout: "horizontal",
   submitButtonText: "提交预约",
-  submitButtonOptions: { ghost: true },
+  // submitButtonOptions: { ghost:true },
   schemas,
 });
 
