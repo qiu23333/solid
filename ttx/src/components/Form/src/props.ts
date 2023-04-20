@@ -2,7 +2,8 @@ import type { CSSProperties, PropType } from 'vue';
 import { FormSchema } from './types/form';
 import type { GridProps, GridItemProps } from 'naive-ui/lib/grid';
 import type { ButtonProps } from 'naive-ui/lib/button';
-import { propTypes } from '../../../utils/propTypes';
+// @ts-ignore
+import { propTypes } from '/@/utils/propTypes';
 export const basicProps = {
   // 标签宽度  固定宽度
   labelWidth: {

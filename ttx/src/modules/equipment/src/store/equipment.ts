@@ -12,8 +12,9 @@ import {
     updateItem,
     addItem,
     testConnect
+    // @ts-ignore
 } from "/@/api";
-
+// @ts-ignore
 import { message } from "/@/components/Dialog";
 import { FormItemRule, FormRules } from "naive-ui";
 
@@ -25,6 +26,7 @@ export const equipmentStore = defineStore({
         let all = 1
         let pageSize = 10
         let data = []
+        let isadd = false
         let loading = false
         let checkedRowKeysRef = ""
         let showModal = false
@@ -204,6 +206,7 @@ export const equipmentStore = defineStore({
             showModal,
             changeInfo,
             rules,
+            isadd,
             parentNameOptions,
             dictItemProtocolOptions,
             baseNameOptions,

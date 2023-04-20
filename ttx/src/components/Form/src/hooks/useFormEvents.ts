@@ -1,6 +1,7 @@
 import type { ComputedRef, Ref } from 'vue';
 import type { FormProps, FormSchema, FormActionType } from '../types/form';
 import { unref, toRaw } from 'vue';
+// @ts-ignore
 import { isFunction } from '/@/utils/is';
 
 declare type EmitType = (event: string, ...args: any[]) => void;
@@ -28,17 +29,18 @@ export function useFormEvents({
 }: UseFormActionContext) {
   // 验证
   async function validate() {
+    console.log('验证结果：  '+unref(formElRef)?.validate())
     return unref(formElRef)?.validate();
   }
 
   // 提交
-  async function handleSubmit(e?: Event): Promise<void> {
+  async function handleSubmit(e?: Event) {
     e && e.preventDefault();
     loadingSub.value = true;
     const { submitFunc } = unref(getProps);
     if (submitFunc && isFunction(submitFunc)) {
       await submitFunc();
-      return;
+      return true
     }
     const formEl = unref(formElRef);
     if (!formEl) return;
@@ -46,7 +48,7 @@ export function useFormEvents({
       await validate();
       loadingSub.value = false;
       emit('submit', formModel);
-      return;
+      return true;
     } catch (error) {
       loadingSub.value = false;
       return;

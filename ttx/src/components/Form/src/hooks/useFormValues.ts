@@ -1,3 +1,4 @@
+// @ts-ignore
 import { isArray, isFunction, isObject, isString, isNullOrUnDef } from '/@/utils/is';
 import { unref } from 'vue';
 import type { Ref, ComputedRef } from 'vue';

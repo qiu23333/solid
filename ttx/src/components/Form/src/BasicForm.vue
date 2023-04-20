@@ -10,14 +10,6 @@
           <!--标签名右侧温馨提示-->
           <template #label v-if="schema.labelMessage">
             {{ schema.label }}
-            <n-tooltip trigger="hover" :style="schema.labelMessageStyle">
-              <template #trigger>
-                <n-icon size="18" class="text-gray-400 cursor-pointer">
-                  <QuestionCircleOutlined />
-                </n-icon>
-              </template>
-              {{ schema.labelMessage }}
-            </n-tooltip>
           </template>
 
           <!--判断插槽-->
@@ -101,24 +93,7 @@
             v-bind="getResetBtnOptions"
             @click="resetFields"
             >{{ getProps.resetButtonText }}</n-button
-          >
-          <n-button
-            type="primary"
-            text
-            icon-placement="right"
-            v-if="isInline && getProps.showAdvancedButton"
-            @click="unfoldToggle"
-          >
-            <template #icon>
-              <n-icon size="14" class="unfold-icon" v-if="overflow">
-                <DownOutlined />
-              </n-icon>
-              <n-icon size="14" class="unfold-icon" v-else>
-                <UpOutlined />
-              </n-icon>
-            </template>
-            {{ overflow ? "展开" : "收起" }}
-          </n-button>
+          > 
         </n-space>
       </n-gi>
     </n-grid>
@@ -140,19 +115,19 @@ import { useFormEvents } from "./hooks/useFormEvents";
 import { useFormValues } from "./hooks/useFormValues";
 
 import { basicProps } from "./props";
-import { DownOutlined, UpOutlined, QuestionCircleOutlined } from "@vicons/antd";
 
 import type { Ref } from "vue";
 import type { GridProps } from "naive-ui/lib/grid";
 import type { FormSchema, FormProps, FormActionType } from "./types/form";
-
+// @ts-ignore
 import { isArray } from "/@/utils/is/index";
+// @ts-ignore
 import { deepMerge } from "/@/utils";
 import { NInput, NInputGroup, NInputNumber, NSelect, NCountdown, NTimePicker, NDatePicker,  } from "naive-ui";
 
 export default defineComponent({
   name: "BasicUpload",
-  components: { DownOutlined, UpOutlined, QuestionCircleOutlined, NInput,NInputGroup, NInputNumber, NCountdown, NSelect ,NTimePicker, NDatePicker},
+  // components: { DownOutlined, UpOutlined, QuestionCircleOutlined, NInput,NInputGroup, NInputNumber, NCountdown, NSelect ,NTimePicker, NDatePicker},
   props: {
     ...basicProps,
   },

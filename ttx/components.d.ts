@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     BasicDialog: typeof import('./src/components/Dialog/src/basicDialog.vue')['default']
     BasicForm: typeof import('./src/components/Form/src/BasicForm.vue')['default']
     BasicFrom: typeof import('./src/components/Iform/src/BasicForm.vue')['default']
+    BasicModal: typeof import('./src/components/Modal/src/basicModal.vue')['default']
     Button: typeof import('./src/components/button/button.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     Message: typeof import('./src/components/message/message.vue')['default']
