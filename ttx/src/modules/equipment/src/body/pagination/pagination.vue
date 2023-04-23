@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute bottom-0 right-0 mt-2 ">
+  <div class="absolute mt-2 right-3">
     <n-space inline class="font-sans text-center">
       <div class="mt-1">共{{all}}条数据</div>
     <n-pagination

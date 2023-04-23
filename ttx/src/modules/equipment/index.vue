@@ -1,7 +1,7 @@
 <template >
-  <div class="grid h-auto grid-cols-1 bg-gray-100 gap-y-3">
-    <top />
-    <Ebody />
+  <div class="grid-cols-1 bg-gray-100">
+    <top class="h-16 top-5"/>
+    <Ebody class="mt-10"/>
   </div>
 </template>
 

@@ -4,7 +4,15 @@ export default {
   darkMode: 'class', // or 'media' or false
   content: [],
   theme: {
-    extend: {},
+    // height:{
+    //   evo:'1212px'
+    // },
+    extend: {
+      height:{
+        // full : 951    body:831
+          evo:'1237px'
+        },
+    },
   },
   plugins: [],
 }

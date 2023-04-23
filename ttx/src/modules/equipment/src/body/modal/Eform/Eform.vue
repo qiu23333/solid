@@ -1,19 +1,16 @@
 <template>
   <BasicForm @register="register" @submit="handleSubmit" />
 </template>
-
 <script setup lang="ts">
 // @ts-ignore
 import { BasicForm, FormSchema, useForm } from "/@/components/Form/index";
 import { equipmentStore } from "../../../store/equipment";
 import { storeToRefs } from "pinia";
-
 const equipment = equipmentStore();
 const props = defineProps(["itemInfo", "baseInfo"]);
 const itemInfo = props.itemInfo;
 let { isadd } = storeToRefs(equipment);
-let { parents=null, Protocols=null,baseNames=null, Brands=null,Models=null, itemNo = null } = {...props.baseInfo};
-
+let { types=null, parents=null, Protocols=null,baseNames=null, Brands=null,Models=null, itemNo = null } = {...props.baseInfo};
 const schemas: FormSchema[] = [
   {
     field: "type",
@@ -25,16 +22,7 @@ const schemas: FormSchema[] = [
     },
     componentProps: {
       clearable: true,
-      options: [
-        {
-          label: "TCU",
-          value: "7",
-        },
-        {
-          label: "NCU",
-          value: "6",
-        },
-      ],
+      options:types,
       onUpdateValue: (e: any) => {
         console.log(e);
       },
@@ -196,8 +184,6 @@ function handleSubmit(values: Recordable) {
   // message.success(JSON.stringify(values));
   // if (values != null) return true;
 }
-
 defineExpose({ submit, getFieldsValue });
 </script>
-
 <style scoped></style>

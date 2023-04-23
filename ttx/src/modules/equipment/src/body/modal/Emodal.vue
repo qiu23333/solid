@@ -18,14 +18,13 @@
 
 <script setup lang="ts">
 // @ts-ignore
-import { message } from "/@/components/Dialog";
-
+import { message } from "/@/components/Dialog"
 // @ts-ignore
-import { useModal } from "/@/components/Modal";
-import { equipmentStore } from "../../store/equipment";
-import { storeToRefs } from "pinia";
-import dayjs from "dayjs";
-import Eform from "./Eform/Eform.vue";
+import { useModal } from "/@/components/Modal"
+import { equipmentStore } from "../../store/equipment"
+import { storeToRefs } from "pinia"
+import dayjs from "dayjs"
+import Eform from "./Eform/Eform.vue"
 import {
   addItem,
   getDeviceNo,
@@ -35,22 +34,24 @@ import {
   selectDeviceModel,
   selectDeviceParent,
   selectDeviceProtocol,
+  selectDeviceType,
   testConnect,
   updateItem,
-} from "../../../../../api";
-const form = ref<InstanceType<typeof Eform>>();
-
-const equipment = equipmentStore();
-let { isadd } = storeToRefs(equipment);
-let itemInfo = {};
+  // @ts-ignore
+} from "/@/api"
+const form = ref<InstanceType<typeof Eform>>()
+const equipment = equipmentStore()
+let { isadd } = storeToRefs(equipment)
+let itemInfo = {}
 let baseInfo = {
+  types: [{}],
   parents: [{}],
   Protocols: [{}],
   baseNames: [{}],
   Brands: [{}],
   Models: [{}],
   itemNo: null,
-};
+}
 const [modalRegister, { openModal, closeModal, setSubLoading }] = useModal({
   closable: false,
   subBtuText: "保存",
@@ -58,8 +59,7 @@ const [modalRegister, { openModal, closeModal, setSubLoading }] = useModal({
     width: "890px",
   },
   title: equipment.isadd ? "新建设备" : "编辑设备",
-});
-
+})
 async function okModal() {
   const formRes = await form.value.submit();
   console.log(formRes);
@@ -170,19 +170,26 @@ async function getData() {
       value: i.id.toString(),
     };
   });
+  // 获取类型
+  let res6 = await selectDeviceType();
+  baseInfo.types = res6.data.map(
+    (i: { dictItemName: string; dictItemCode: string }) => {
+      return {
+        // 字典项筛选
+        label: i.dictItemCode === "6" ? "ncu" : "tcu",
+        value: i.dictItemCode,
+      };
+    }
+  );
 }
-async function getModal(id) {
-  console.log(id);
+async function getModal(id: any) {
   let res = await getItem(id);
   itemInfo = res.data;
   // @ts-ignore
   itemInfo.createTime = dayjs(itemInfo.createTime).valueOf();
-  console.log(itemInfo);
   await getData();
   openModal();
 }
-
 defineExpose({ getModal, openModal, getData });
 </script>
-
 <style scoped></style>

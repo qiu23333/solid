@@ -1,5 +1,5 @@
 <template>
-    <div class="relative w-11/12 m-auto bg-white">
+    <div class="w-11/12 ml-auto mr-auto bg-white mt-">
       <Emodal  ref="mod"  class="w-2/3"/>
       <n-space class="relative bg-white">
         <n-space inline class="mt-2 space-x-2 font-sans">
@@ -25,11 +25,11 @@
           :data="data"
           :bordered="false"
           :single-line="false"
-          :max-height="423"
-          :min-height="423"
+        :max-height="1212"
+        :min-height="423"
           :row-key="rowKey"
           @update:checked-row-keys="handleCheck"
-          class="mt-2 mb-6"
+          class="mt-2 mb-10"
         />
         <pagination />
       </n-space>
@@ -46,7 +46,8 @@ import type { DataTableRowKey } from "naive-ui";
 // @ts-ignore
 import { dialog, message } from "/@/components/Dialog";
 import Emodal from './modal/Emodal.vue'
-import { removeItem } from "../../../../api";
+// @ts-ignore
+import { removeItem } from "/@/api";
 
 const equipment = equipmentStore();
 let { data, loading } = storeToRefs(equipment);
@@ -59,6 +60,7 @@ const columns = [
     title: "设备名称",
     key: "subName",
     ellipsis: {
+      // 折叠后提示
       tooltip: true,
     },
   },

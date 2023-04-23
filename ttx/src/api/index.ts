@@ -189,6 +189,20 @@ export const selectDeviceBrand = () => {
         }
     })
 }
+// 获取设备类型列表
+export const selectDeviceType = () => {
+    return requests({
+        url: 'device/deviceSub/selectDeviceDictItem',
+        method: 'get',
+        headers: {
+            Authorization: localStorage.getItem("tk")
+        },
+        params: {
+            dictCode: 'device_type',
+            dictName: '设备类型'
+        }
+    })
+}
 // 获取设备厂商列表
 export const selectDeviceBaseName = () => {
     return requests({
