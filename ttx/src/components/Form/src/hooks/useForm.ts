@@ -1,4 +1,5 @@
 import type { FormProps, FormActionType, UseFormReturnType } from '../types/form';
+// @ts-ignore
 import type { DynamicProps } from '/#/utils';
 
 import { ref, onUnmounted, unref, nextTick, watch } from 'vue';
@@ -69,6 +70,7 @@ export function useForm(props?: Props): UseFormReturnType {
 
     setFieldsValue: async <T>(values: T) => {
       const form = await getForm();
+      // @ts-ignore
       await form.setFieldsValue<T>(values);
     },
 

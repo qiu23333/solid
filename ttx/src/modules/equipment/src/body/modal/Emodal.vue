@@ -6,280 +6,183 @@
     @on-ok="okModal"
   >
     <template #default>
-      <BasicForm
-        @register="register"
-        @submit="handleSubmit"
-      />
+      <Eform ref="form" :itemInfo="itemInfo" :baseInfo="baseInfo" />
     </template>
     <template v-if="isadd" #action>
-      <n-button
-      @click="closeModal"
-      >取消</n-button>
-      <n-button
-      
-      >测试连接</n-button>
-      <n-button
-      @click="okModal"
-      >保存</n-button>
+      <n-button @click="closeModal">取消</n-button>
+      <n-button @click="tryConnect" type="info" ghost>测试连接</n-button>
+      <n-button @click="okModal" type="primary" ghost>保存</n-button>
     </template>
   </basicModal>
 </template>
 
 <script setup lang="ts">
 // @ts-ignore
-import { BasicForm, FormSchema, useForm } from "/@/components/Form/index";
-// @ts-ignore
 import { message } from "/@/components/Dialog";
+
+// @ts-ignore
+import { useModal } from "/@/components/Modal";
+import { equipmentStore } from "../../store/equipment";
+import { storeToRefs } from "pinia";
+import dayjs from "dayjs";
+import Eform from "./Eform/Eform.vue";
 import {
+  addItem,
   getDeviceNo,
+  getItem,
   selectDeviceBaseName,
   selectDeviceBrand,
   selectDeviceModel,
   selectDeviceParent,
   selectDeviceProtocol,
-  //   @ts-ignore
-} from "/@/api";
-// @ts-ignore
-import { useModal } from "/@/components/Modal";
-import { equipmentStore } from "../../store/equipment";
-import { storeToRefs } from "pinia";
-// @ts-ignore
-import { onMountedOrActivated } from "/@/hooks/core/onMountedOrActivated";
-let parentNameOptions = reactive([{}]);
-let dictItemProtocolOptions = reactive([{}]);
-let dictItemModelOptions = reactive([{}]);
-let dictItemBrandOptions = reactive([{}]);
-let baseNameOptions = reactive([{}]);
+  testConnect,
+  updateItem,
+} from "../../../../../api";
+const form = ref<InstanceType<typeof Eform>>();
+
 const equipment = equipmentStore();
-let { data, loading, showModal, changeInfo, isadd } = storeToRefs(equipment);
-const props = defineProps(["title"]);
-const schemas: FormSchema[] = [
-  {
-    field: "type",
-    component: "NSelect",
-    label: "设备类型",
-    giProps: {
-      //span: 24,
-    },
-    componentProps: {
-      clearable: true,
-      options: [
-        {
-          label: "TCU",
-          value: '7',
-        },
-        {
-          label: "NCU",
-          value: '6',
-        },
-      ],
-      onUpdateValue: (e: any) => {
-        console.log(e);
-      },
-    },
-    rules: [{ required: true, message: "请选择设备类型", trigger: ["blur"] }],
-  },
-  {
-    field: "itemNo",
-    component: "NInput",
-    label: "设备编号",
-    // defaultValue: (await getDeviceNo()).data,
-    giProps: {
-      // span: 1,
-    },
-    componentProps: {
-      disabled: true,
-      value: "addNo",
-    },
-  },
-  {
-    field: "subName",
-    component: "NInput",
-    label: "设备名称",
-    componentProps: {
-      showButton: true,
-      onInput: (e: any) => {
-        console.log(e);
-      },
-    },
-    rules: [{ required: true, message: "请输入设备名称", trigger: ["blur"] }],
-  },
-  {
-    field: "host",
-    component: "NInput",
-    label: "通讯地址",
-    componentProps: {
-      clearable: true,
-    },
-    rules: [{ required: true, message: "请输入通讯地址", trigger: ["blur"] }],
-  },
-  {
-    field: "port",
-    component: "NInput",
-    label: "端口号",
-    componentProps: {
-      clearable: true,
-    },
-    rules: [{ required: true, message: "请输入端口号", trigger: ["blur"] }],
-  },
-  {
-    field: "freq",
-    component: "NInput",
-    label: "采集步长",
-    componentProps: {
-      clearable: true,
-    },
-    rules: [{ required: true, message: "请输入采集步长", trigger: ["blur"] }],
-  },
-  {
-    field: "parentId",
-    component: "NSelect",
-    label: "父级设备",
-    componentProps: {
-      clearable: true,
-      options: [
-        {
-          label: "大跌1",
-          value: 114,
-        },
-        {
-          label: "大跌2",
-          value: 514,
-        },
-      ],
-    },
-  },
-  {
-    field: "protocol",
-    component: "NSelect",
-    label: "协议类型",
-    componentProps: {
-      clearable: true,
-      options: [
-        {
-          label: "mudbus",
-          value: '0',
-        },
-      ],
-    },
-    rules: [{ required: true, message: "请选择协议类型", trigger: ["blur"] }],
-  },
-  {
-    field: "model",
-    component: "NSelect",
-    label: "设备型号",
-    componentProps: {
-      clearable: true,
-      options: [
-        {
-          label: "型号2",
-          value: '1',
-        },
-      ],
-    },
-    rules: [{ required: true, message: "请选择设备型号", trigger: ["blur"] }],
-  },
-  {
-    field: "brand",
-    component: "NSelect",
-    label: "协议厂商",
-    componentProps: {
-      clearable: true,
-      options: [
-        {
-          label: "⭐⭐充电",
-          value: '5',
-        },
-        {
-          label: "天合光能",
-          value: '6',
-        },
-      ],
-    },
-    rules: [{ required: true, message: "请选择协议厂商", trigger: ["blur"] }],
-  },
-  {
-    field: "createTime",
-    component: "NDatePicker",
-    label: "创建时间",
-    giProps: {
-      //span: 24,
-    },
-    defaultValue: 1183135260000,
-    componentProps: {
-      type: "datetime",
-      valueFormat: "yyyy-MM-dd HH:mm:ss",
-      clearable: true,
-      size: "large",
-      onUpdateValue: (e: any) => {
-        console.log(e);
-      },
-    },
-  },
-  {
-    field: "baseName",
-    component: "NSelect",
-    label: "设备所属场站",
-    componentProps: {
-      clearable: true,
-      options: [
-        {
-          label: "秋水共长天",
-          value: '1',
-        },
-      ],
-    },
-    rules: [
-      { required: true, message: "请选择设备所属场站", trigger: ["blur"] },
-    ],
-  },
-  {
-    field: "slave",
-    component: "NInput",
-    label: "从站号",
-    componentProps: {
-      clearable: true,
-    },
-    rules: [{ required: true, message: "请输入从站号", trigger: ["blur"] }],
-  },
-];
+let { isadd } = storeToRefs(equipment);
+let itemInfo = {};
+let baseInfo = {
+  parents: [{}],
+  Protocols: [{}],
+  baseNames: [{}],
+  Brands: [{}],
+  Models: [{}],
+  itemNo: null,
+};
 const [modalRegister, { openModal, closeModal, setSubLoading }] = useModal({
   closable: false,
+  subBtuText: "保存",
   style: {
     width: "890px",
   },
-  title: "热烈的🐎",
-});
-const [register, { submit }] = useForm({
-  gridProps: { cols: 2, yGap: 5 },
-  labelWidth: 130,
-  layout: "horizontal",
-  showActionButtonGroup: false,
-  requireMarkPlacement: "left",
-  class: "mt-10 w-auto m-auto mr-14",
-  schemas,
+  title: equipment.isadd ? "新建设备" : "编辑设备",
 });
 
 async function okModal() {
-  const formRes = await submit();
-  //   const formRal = await handleFormValues();
-    console.log(formRes)
+  const formRes = await form.value.submit();
+  console.log(formRes);
   if (formRes == true) {
-    closeModal();
-    message.success("提交成功");
+    let Res = await form.value?.getFieldsValue();
+    if (Res.createTime) {
+      Res.createTime = dayjs(Res.createTime).format("YYYY-MM-DD HH:mm:ss");
+    }
+    // 1682221493836
+    // 转毫秒 ，valueOf()
+    // 1548381600000
+    let info = {
+      id: 0,
+      ...Res,
+    };
+    console.log(info);
+    if (isadd.value == true) {
+      let isOK = await addItem(info);
+      if (isOK.data == 1) {
+        message.success("添加成功！");
+        equipment.getData(0, equipment.pageSize);
+        setSubLoading(false);
+        closeModal();
+      } else {
+        message.error("添加失败！");
+        setSubLoading(false);
+      }
+    } else {
+      let isOK = await updateItem(info);
+      if (isOK.data == 1) {
+        message.success("保存成功！");
+        setSubLoading(false);
+        closeModal();
+      } else {
+        message.error("保存失败！");
+        setSubLoading(false);
+      }
+    }
   } else {
     message.error("验证失败，请填写完整信息");
     setSubLoading(false);
   }
 }
-function handleSubmit(values: Recordable) {
-  console.log(values);
-  message.success(JSON.stringify(values));
-  if(values!=null) return true
+async function tryConnect() {
+  const Res = await form.value?.getFieldsValue();
+  console.log(Res);
+  if (Res.port != undefined && Res.host != undefined) {
+    let info = { port: Res.port, host: Res.host };
+    let isOK = await testConnect(info);
+    if (isOK.data == true) {
+      message.success("链接成功！");
+    } else {
+      message.error("链接失败！");
+    }
+  } else {
+    message.error("请正确填写端口号与通讯地址！");
+  }
+}
+async function getData() {
+  // 是否为新增设备获取编号
+  if (equipment.isadd == true) {
+    let res = await getDeviceNo();
+    baseInfo.itemNo = res.data;
+  }
+  // 获取父级设备列表
+  let res1 = await selectDeviceParent();
+  baseInfo.parents = res1.data.map((i: { subName: any; id: any }) => {
+    return {
+      label: i.subName,
+      value: i.id,
+    };
+  });
+  // 获取协议类型
+  let res2 = await selectDeviceProtocol();
+  baseInfo.Protocols = res2.data.map(
+    (i: { dictItemName: any; dictItemCode: any }) => {
+      return {
+        label: i.dictItemName,
+        value: i.dictItemCode,
+      };
+    }
+  );
+  // 获取设备型号
+  let res3 = await selectDeviceModel();
+  baseInfo.Models = res3.data.map(
+    (i: { dictItemName: any; dictItemCode: any }) => {
+      return {
+        label: i.dictItemName,
+        value: i.dictItemCode,
+      };
+    }
+  );
+  // 获取设备厂商
+  let res4 = await selectDeviceBrand();
+  baseInfo.Brands = res4.data.map(
+    (i: { dictItemName: any; dictItemCode: any }) => {
+      return {
+        label: i.dictItemName,
+        value: i.dictItemCode,
+      };
+    }
+  );
+  // 获取所属场站
+  let res5 = await selectDeviceBaseName();
+  baseInfo.baseNames = res5.data.map((i: { baseName: any; id: any }) => {
+    return {
+      label: i.baseName,
+      value: i.id.toString(),
+    };
+  });
+}
+async function getModal(id) {
+  console.log(id);
+  let res = await getItem(id);
+  itemInfo = res.data;
+  // @ts-ignore
+  itemInfo.createTime = dayjs(itemInfo.createTime).valueOf();
+  console.log(itemInfo);
+  await getData();
+  openModal();
 }
 
-
-defineExpose({ openModal });
+defineExpose({ getModal, openModal, getData });
 </script>
 
 <style scoped></style>

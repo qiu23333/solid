@@ -7,11 +7,6 @@
         :key="schema.field"
       >
         <n-form-item :label="schema.label" :path="schema.field">
-          <!--标签名右侧温馨提示-->
-          <template #label v-if="schema.labelMessage">
-            {{ schema.label }}
-          </template>
-
           <!--判断插槽-->
           <template v-if="schema.slot">
             <slot
@@ -51,7 +46,7 @@
             </n-radio-group>
           </template>
           <!--动态渲染表单组件-->
-          <component
+          <component  
             v-else
             v-bind="getComponentProps(schema)"
             :is="schema.component"
@@ -123,7 +118,7 @@ import type { FormSchema, FormProps, FormActionType } from "./types/form";
 import { isArray } from "/@/utils/is/index";
 // @ts-ignore
 import { deepMerge } from "/@/utils";
-import { NInput, NInputGroup, NInputNumber, NSelect, NCountdown, NTimePicker, NDatePicker,  } from "naive-ui";
+// import { NInput, NInputGroup, NInputNumber, NSelect, NCountdown, NTimePicker, NDatePicker,  } from "naive-ui";
 
 export default defineComponent({
   name: "BasicUpload",
@@ -165,11 +160,12 @@ export default defineComponent({
     function getComponentProps(schema) {
       const compProps = schema.componentProps ?? {};
       const component = schema.component;
-      return {
+      const res = {
         clearable: true,
         placeholder: createPlaceholderMessage(unref(component)),
         ...compProps,
       };
+      return res
     }
 
     const getProps = computed((): FormProps => {

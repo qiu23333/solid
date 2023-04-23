@@ -40,6 +40,7 @@ export const basicProps = {
     type: Boolean,
     default: true,
   },
+  
   //是否显示操作按钮（查询/重置）
   showActionButtonGroup: propTypes.bool.def(true),
   // 显示重置按钮

@@ -1,6 +1,12 @@
 <template>
   <div>
     <n-card :bordered="false" class="mt-4 proCard">
+      <n-date-picker
+        type="datetime"
+        format="yyyy-MM-dd HH:mm:ss"
+
+        :on-update-value="updataTime"
+      ></n-date-picker>
       <div class="BasicForm">
         <BasicForm
           @register="register"
@@ -20,7 +26,10 @@
 // @ts-ignore
 import { BasicForm, FormSchema, useForm } from "/@/components/Form/index";
 // @ts-ignore
-import { message } from "/@/components/Dialog"
+import { message } from "/@/components/Dialog";
+import dayjs from "dayjs";
+
+// let date = ref('1183135260000')
 
 const schemas: FormSchema[] = [
   {
@@ -82,10 +91,11 @@ const schemas: FormSchema[] = [
     giProps: {
       //span: 24,
     },
-    defaultValue: 1183135260000,
+    defaultValue: null,
     componentProps: {
-      type: "date",
+      type: "datetime",
       clearable: true,
+      valueFormat: "yyyy-MM-dd HH:mm:ss",
       onUpdateValue: (e: any) => {
         console.log(e);
       },
@@ -167,9 +177,8 @@ const schemas: FormSchema[] = [
   },
 ];
 
-
 const [register, {}] = useForm({
-  gridProps: { cols: 2 },
+  gridProps: { cols: 1 },
   collapsedRows: 3,
   labelWidth: 120,
   layout: "horizontal",
@@ -185,6 +194,12 @@ function handleSubmit(values: Recordable) {
 
 function handleReset(values: Recordable) {
   console.log(values);
+  // console.log(date);
+}
+function updataTime(e: any) {
+  console.log(e);
+  console.log(dayjs(1682221037000).format('YYYY-MM-DD @@ HH:mm:ss'))
+  
 }
 </script>
 

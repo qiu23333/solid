@@ -29,7 +29,6 @@ export function useFormEvents({
 }: UseFormActionContext) {
   // 验证
   async function validate() {
-    console.log('验证结果：  '+unref(formElRef)?.validate())
     return unref(formElRef)?.validate();
   }
 

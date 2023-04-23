@@ -12,7 +12,7 @@
       <n-space>
         <n-button @click="closeModal">取消</n-button>
         
-        <n-button type="primary" :loading="subLoading" @click="handleSubmit">{{
+        <n-button type="primary" :loading="subLoading" @click="handleSubmit" ghost>{{
           subBtuText
         }}</n-button>
       </n-space>

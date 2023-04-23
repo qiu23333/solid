@@ -1,6 +1,6 @@
 <template>
     <div class="relative w-11/12 m-auto bg-white">
-      <Emodal  ref="mod" :title="title" class="w-2/3"/>
+      <Emodal  ref="mod"  class="w-2/3"/>
       <n-space class="relative bg-white">
         <n-space inline class="mt-2 space-x-2 font-sans">
           <div class="mt-2 ml-7">设备管理</div>
@@ -46,33 +46,10 @@ import type { DataTableRowKey } from "naive-ui";
 // @ts-ignore
 import { dialog, message } from "/@/components/Dialog";
 import Emodal from './modal/Emodal.vue'
+import { removeItem } from "../../../../api";
 
-import {
-  getDeviceNo,
-  selectDeviceBaseName,
-  selectDeviceBrand,
-  selectDeviceModel,
-  selectDeviceParent,
-  selectDeviceProtocol,
-  // @ts-ignore
-} from "/@/api";
-import { useModal } from "../../../../components/Modal";
-import { FormSchema } from "../../../../components/Form";
-// import { array } from "vue-types";
 const equipment = equipmentStore();
-let { data, loading, showModal, changeInfo, isadd } = storeToRefs(equipment);
-let typeOptions = reactive([
-  {
-    label: "tcu",
-    value: "7",
-  },
-  {
-    label: "ncu",
-    value: "6",
-  },
-]);
-let title = null;
-let addNo = ref(114514);
+let { data, loading } = storeToRefs(equipment);
 const columns = [
   {
     type: "selection",
@@ -146,88 +123,12 @@ function handleCheck(rowKeys: DataTableRowKey[]) {
 }
 async function Edit(rowData: any) {
   equipment. isadd = false;
-  // equipment.showModal = true;
-  mod.value?.openModal()
-  // id = rowData.id;
-  // equipment.editItem(rowData.id);
-}
-
-async function getItemNo() {
-  const res = await getDeviceNo();
-  return res.data;
+  mod.value?.getModal(rowData.id)
 }
 async function add() {
   equipment. isadd  = true;
-  // openModal()
+  await mod.value?.getData()
   mod.value?.openModal()
-  equipment.showModal = true;
-  addNo = (await getDeviceNo()).data;
-  console.log(addNo);
-  // 获取父级设备列表
-  // let res1 = await selectDeviceParent();
-  // parentNameOptions = res1.data.map((i: { subName: any; id: any }) => {
-  //   return {
-  //     label: i.subName,
-  //     value: i.id,
-  //   };
-  // });
-  // 获取协议类型
-  // let res2 = await selectDeviceProtocol();
-  // dictItemProtocolOptions = res2.data.map(
-  //   (i: { dictItemName: any; dictItemCode: any }) => {
-  //     return {
-  //       label: i.dictItemName,
-  //       value: i.dictItemCode,
-  //     };
-  //   }
-  // );
-  // // 获取设备型号
-  // let res3 = await selectDeviceModel();
-  // dictItemModelOptions = res3.data.map(
-  //   (i: { dictItemName: any; dictItemCode: any }) => {
-  //     return {
-  //       label: i.dictItemName,
-  //       value: i.dictItemCode,
-  //     };
-  //   }
-  // );
-  // // 获取设备厂商
-  // let res4 = await selectDeviceBrand();
-  // dictItemBrandOptions = res4.data.map(
-  //   (i: { dictItemName: any; dictItemCode: any }) => {
-  //     return {
-  //       label: i.dictItemName,
-  //       value: i.dictItemCode,
-  //     };
-  //   }
-  // );
-  // // 获取所属场站
-  // let res5 = await selectDeviceBaseName();
-  // baseNameOptions = res5.data.map((i: { baseName: any; id: any }) => {
-  //   return {
-  //     label: i.baseName,
-  //     value: i.id,
-  //   };
-  // });
-}
-
-async function handle() {
-  if (isadd == true) {
-    let res = await equipment.addItem();
-    if (res == true) {
-      equipment.showModal = false;
-      equipment.getData(1, equipment.pageSize);
-    }
-  } else {
-    let res = await equipment.updateItem();
-    if (res == true) {
-      equipment.showModal = false;
-      equipment.getData(equipment.page, equipment.pageSize);
-    }
-  }
-}
-async function handleTest() {
-  await equipment.test();
 }
 function handleConfirm() {
   dialog.warning({
@@ -236,10 +137,8 @@ function handleConfirm() {
     maskClosable: false,
     positiveText: "确定",
     closable: false,
-    // showIcon:false,
     positiveButtonProps: {
       type: "error",
-      // round: true,
       ghost: true,
     },
     negativeText: "取消",
@@ -257,12 +156,15 @@ function handleConfirm() {
   });
 }
 async function del() {
-  let res = await equipment.delData();
-  if (res === true) {
+  let res = await removeItem(equipment.checkedRowKeysRef);
+  if (res.data === true) {
     message.success("删除成功");
-  } else if (res === "message.exceptions.exception_17") {
+    equipment.getData(1, equipment.pageSize)
+    // @ts-ignore
+  } else if (res.msg === "message.exceptions.exception_17") {
     message.error("设备存在子设备，无法删除");
-  } else if (res === "message.exceptions.exception_69") {
+    // @ts-ignore
+  } else if (res.msg === "message.exceptions.exception_69") {
     message.error("请先选择要删除的设备");
   } else {
     message.error("别的错误捏");
