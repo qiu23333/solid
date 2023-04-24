@@ -1,3 +1,4 @@
+
 /** @type {import('tailwindcss').Config} */
 export default {
   purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
@@ -8,10 +9,11 @@ export default {
     //   evo:'1212px'
     // },
     extend: {
-      height:{
+      height: {
         // full : 951    body:831
-          evo:'1237px'
-        },
+        vo: '10%',
+        evo: '84%',
+      },
     },
   },
   plugins: [],

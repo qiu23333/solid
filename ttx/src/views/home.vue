@@ -8,8 +8,8 @@
                         :options="menuOptions" class="h-full"/>
                 </n-layout-sider>
                 
-                <n-layout class="h-full">    
-                    <div class="h-24">??</div>                
+                <n-layout class="h-full bg-gray-100">    
+                    <div class="h-20 bg-white">??</div>                
                     <router-view class="h-evo"></router-view>
                 </n-layout>
             </n-layout>

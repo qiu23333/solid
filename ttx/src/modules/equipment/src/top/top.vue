@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-11/12 ml-auto mr-auto bg-white ">
+  <div class="relative w-11/12 h-16 ml-auto mr-auto bg-white">
     <n-space  class="font-sans text-center ">
       <div class="mt-5 ml-5">场站</div>
       <n-input

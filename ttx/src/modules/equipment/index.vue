@@ -1,7 +1,7 @@
 <template >
-  <div class="grid-cols-1 bg-gray-100">
-    <top class="h-16 top-5"/>
-    <Ebody class="mt-10"/>
+  <div class="grid-cols-1 bg-gray-100 h-evo">
+    <top class="h-16 top-4"/>
+    <Ebody class="mt-8 h-evo"/>
   </div>
 </template>
 

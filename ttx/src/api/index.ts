@@ -1,7 +1,5 @@
 
-import { method } from "lodash-es";
 import { requests } from "./request";
-import dayjs from "dayjs";
 
 // 接口统一管理哎
 // 验证码

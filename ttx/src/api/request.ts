@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import http from 'http';                                        
-import https from 'https';  
+// @ts-ignore
+import { loadingBar } from "/@/components/Dialog";
 export const requests = axios.create({
   // 基础路径
   baseURL: "/api",
@@ -15,6 +15,7 @@ export const requests = axios.create({
 // 请求拦截器，
 requests.interceptors.request.use((config) => {
   // 逻辑业务处理
+  loadingBar.start()
   // alert("马上出发嗷!");
   // console.log(config);
   // config是一个配置对象，对象里面的headers请求头属性很重要嗷
@@ -25,11 +26,13 @@ requests.interceptors.response.use(
   // 成功的回调，返回数据data
   (res) => {
     // 成功的逻辑处理
+    loadingBar.finish()
     // alert("成辣！！！");
     return res.data;
   },
   //   失败的回调
   (error) => {
+    loadingBar.error()
     // 失败的逻辑业务处理
     alert("寄辣！！！");
     console.log(error);
@@ -53,6 +56,7 @@ export default class Api {
     // 拦截器
     // 配置请求拦截器
     this.instance.interceptors.request.use(
+      // @ts-ignore
       this.interceptor?.requestInterceptor,
       this.interceptor?.requestInterceptorErr
     );
