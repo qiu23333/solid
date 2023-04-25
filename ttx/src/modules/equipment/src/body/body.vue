@@ -1,12 +1,15 @@
 <template>
-  <div class="w-11/12 ml-auto mr-auto bg-white h-evo">
+  <div class="w-11/12 mx-auto bg-white h-evo">
     <Emodal ref="mod" class="w-2/3" />
-    <n-space vertical class="relative ">
-      <n-space inline class="h-10 mt-2 space-x-2 font-sans ">
+    <n-space vertical class="relative">
+      <n-space inline class="h-10 mt-2 space-x-2 font-sans">
         <div class="ml-5">设备管理</div>
         <div class="absolute right-0">
           <n-space>
-            <n-button class="bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-500" @click="add" type="info"
+            <n-button
+              class="bg-gradient-to-r from-green-400 to-blue-500 hover:from-blue-500 hover:to-green-500"
+              @click="add"
+              type="info"
               >新增设备</n-button
             >
             <n-button
@@ -20,18 +23,18 @@
       </n-space>
     </n-space>
     <n-data-table
-        remote
-        :loading="loading"
-        :columns="columns"
-        :data="data"
-        :bordered="false"
-        :single-line="false"
-        flex-height
-        :row-key="rowKey"
-        @update:checked-row-keys="handleCheck"
-        :pagination="pagination"
-        class="h-full text-center"
-      />
+      remote
+      :loading="loading"
+      :columns="columns"
+      :data="data"
+      :bordered="false"
+      :single-line="false"
+      flex-height
+      :row-key="rowKey"
+      @update:checked-row-keys="handleCheck"
+      :pagination="pagination"
+      class="h-full"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -51,13 +54,13 @@ let { data, loading, total, page, pageSize, all } = storeToRefs(equipment);
 const columns = [
   {
     type: "selection",
-    align:'center',
+    align: "center",
     // key:"id"
   },
   {
     title: "设备名称",
     key: "subName",
-    align:'center',
+    align: "center",
     ellipsis: {
       // 折叠后提示
       tooltip: true,
@@ -66,7 +69,7 @@ const columns = [
   {
     title: "设备编号",
     key: "itemNo",
-    align:'center',
+    align: "center",
     ellipsis: {
       tooltip: true,
     },
@@ -74,7 +77,7 @@ const columns = [
   {
     title: "所属场站",
     key: "baseName",
-    align:'center',
+    align: "center",
     ellipsis: {
       tooltip: true,
     },
@@ -82,7 +85,7 @@ const columns = [
   {
     title: "设备类型",
     key: "type",
-    align:'center',
+    align: "center",
     ellipsis: {
       tooltip: true,
     },
@@ -90,7 +93,7 @@ const columns = [
   {
     title: "父级设备",
     key: "parentName",
-    align:'center',
+    align: "center",
     ellipsis: {
       tooltip: true,
     },
@@ -98,8 +101,8 @@ const columns = [
   {
     title: "操作",
     key: "actions",
-    align:'center',
-    width:'120px',
+    align: "center",
+    width: "120px",
     ellipsis: {
       tooltip: true,
     },
@@ -125,6 +128,16 @@ let pagination = reactive({
   showSizePicker: true,
   showQuickJumper: true,
   pageSizes: [10, 15, 20],
+  class: "-mt-3",
+  prefix:()=>{
+    return h(
+        'span',
+        {
+          class:'font-sans text-center'
+        },
+        `共 ${all.value} 条数据`
+      );
+  },
   onChange: (page: number) => {
     equipment.getData(page);
     equipment.page = page;
@@ -133,7 +146,7 @@ let pagination = reactive({
   onUpdatePageSize: (pageSize: number) => {
     equipment.getData(0, pageSize);
     equipment.pageSize = pageSize;
-    pagination.pageSize = pageSize
+    pagination.pageSize = pageSize;
     equipment.page = 1;
   },
 });

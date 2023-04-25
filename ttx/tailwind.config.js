@@ -13,6 +13,7 @@ export default {
         // full : 951    body:831
         vo: '10%',
         evo: '84%',
+        
       },
     },
   },
