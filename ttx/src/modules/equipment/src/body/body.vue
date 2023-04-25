@@ -15,7 +15,7 @@
             <n-button
               @click="handleConfirm"
               class="mr-5 bg-gradient-to-r from-purple-400 to-red-500 hover:from-red-500 hover:to-purple-500"
-              type="info"
+              type="error"
               >删除设备</n-button
             >
           </n-space>

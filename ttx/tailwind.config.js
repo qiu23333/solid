@@ -12,7 +12,7 @@ export default {
       height: {
         // full : 951    body:831
         vo: '10%',
-        evo: '84%',
+        evo: '84.5%',
         
       },
     },

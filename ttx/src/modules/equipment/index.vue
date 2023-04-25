@@ -1,6 +1,6 @@
 <template >
   <div class="grid-cols-1 bg-gray-100 h-evo">
-    <top class="h-16 top-4"/>
+    <top class="h-14 top-4"/>
     <Ebody class="mt-8 h-evo"/>
   </div>
 </template>

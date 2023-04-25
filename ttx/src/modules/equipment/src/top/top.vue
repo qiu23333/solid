@@ -1,5 +1,5 @@
 <template>
-  <div class="relative w-11/12 h-16 ml-auto mr-auto bg-white">
+  <div class="relative w-11/12 ml-auto mr-auto bg-white h-14">
     <n-space  class="font-sans text-center ">
       <div class="mt-5 ml-5">场站</div>
       <n-input
@@ -23,7 +23,7 @@
         v-model:value="searchInfo.itemNo"
         class="mt-3 w-52"
       />
-      <div class="absolute right-0 flex mt-4">
+      <div class="absolute right-0 flex mt-3">
         <n-button class="mr-3" @click="reset">重置</n-button>
         <n-spin :show="loading">
           <n-button
@@ -58,6 +58,7 @@ function reset() {
   equipment.searchInfo.baseName = "";
   equipment.searchInfo.type = null;
   equipment.searchInfo.itemNo = "";
+  // 重置不需要刷新数据页面
   // equipment.getData(0, equipment.pageSize);
 }
 </script>

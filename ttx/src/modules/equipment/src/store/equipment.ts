@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import {
-    getData,
-    removeItem,
+    getData
     // @ts-ignore
 } from "/@/api";
 export const equipmentStore = defineStore({
