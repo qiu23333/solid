@@ -1,12 +1,6 @@
 <template>
   <div>
     <n-card :bordered="false" class="mt-4 proCard">
-      <n-date-picker
-        type="datetime"
-        format="yyyy-MM-dd HH:mm:ss"
-
-        :on-update-value="updataTime"
-      ></n-date-picker>
       <div class="BasicForm">
         <BasicForm
           @register="register"
@@ -27,10 +21,6 @@
 import { BasicForm, FormSchema, useForm } from "/@/components/Form/index";
 // @ts-ignore
 import { message } from "/@/components/Dialog";
-import dayjs from "dayjs";
-
-// let date = ref('1183135260000')
-
 const schemas: FormSchema[] = [
   {
     field: "name",
@@ -176,7 +166,6 @@ const schemas: FormSchema[] = [
     slot: "statusSlot",
   },
 ];
-
 const [register, {}] = useForm({
   gridProps: { cols: 1 },
   collapsedRows: 3,
@@ -186,23 +175,15 @@ const [register, {}] = useForm({
   // submitButtonOptions: { ghost:true },
   schemas,
 });
-
 function handleSubmit(values: Recordable) {
   console.log(values);
   message.success(JSON.stringify(values));
 }
-
 function handleReset(values: Recordable) {
   console.log(values);
   // console.log(date);
 }
-function updataTime(e: any) {
-  console.log(e);
-  console.log(dayjs(1682221037000).format('YYYY-MM-DD @@ HH:mm:ss'))
-  
-}
 </script>
-
 <style lang="less" scoped>
 .BasicForm {
   width: 550px;

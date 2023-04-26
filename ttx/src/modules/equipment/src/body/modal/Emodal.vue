@@ -90,6 +90,10 @@ async function okModal() {
     } else {
       // @ts-ignore
       info.id = itemInfo.id
+      info.freq = ~~info.freq
+      info.orgId = ~~info.orgId
+      info.port = ~~info.port
+      info.slave = ~~info.slave
       console.log(info)
       let isOK = await updateItem(info);
       if (isOK.data == 1) {

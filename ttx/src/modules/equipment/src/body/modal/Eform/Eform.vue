@@ -1,5 +1,5 @@
 <template>
-  <BasicForm @register="register"/>
+  <BasicForm @register="register" @submit="" />
 </template>
 <script setup lang="ts">
 // @ts-ignore
@@ -75,7 +75,7 @@ const schemas: FormSchema[] = [
     field: "port",
     component: "NInput",
     label: "端口号",
-    defaultValue: isadd.value ? null : itemInfo.host,
+    defaultValue: isadd.value ? null : itemInfo.port.toString(),
     componentProps: {
       clearable: true,
     },
@@ -88,6 +88,7 @@ const schemas: FormSchema[] = [
     defaultValue: isadd.value ? null : itemInfo.freq.toString(),
     componentProps: {
       clearable: true,
+      showButton:false
     },
     rules: [{ required: true, message: "请输入采集步长", trigger: ["blur"] }],
   },
