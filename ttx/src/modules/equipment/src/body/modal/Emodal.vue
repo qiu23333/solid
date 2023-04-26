@@ -8,9 +8,9 @@
     <template #default>
       <Eform ref="form" :itemInfo="itemInfo" :baseInfo="baseInfo" />
     </template>
-    <template v-if="isadd" #action>
+    <template  #action>
       <n-button @click="closeModal">取消</n-button>
-      <n-button @click="tryConnect" type="info" ghost>测试连接</n-button>
+      <n-button @click="tryConnect" type="info" ghost v-if="isadd">测试连接</n-button>
       <n-button @click="okModal" type="primary" ghost>保存</n-button>
     </template>
   </basicModal>
@@ -75,8 +75,8 @@ async function okModal() {
       id: 0,
       ...Res,
     };
-    console.log(info);
     if (isadd.value == true) {
+      console.log(info);
       let isOK = await addItem(info);
       if (isOK.data == 1) {
         message.success("添加成功！");
@@ -88,6 +88,9 @@ async function okModal() {
         setSubLoading(false);
       }
     } else {
+      // @ts-ignore
+      info.id = itemInfo.id
+      console.log(info)
       let isOK = await updateItem(info);
       if (isOK.data == 1) {
         message.success("保存成功！");

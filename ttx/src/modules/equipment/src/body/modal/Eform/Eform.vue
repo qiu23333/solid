@@ -10,7 +10,15 @@ const equipment = equipmentStore();
 const props = defineProps(["itemInfo", "baseInfo"]);
 const itemInfo = props.itemInfo;
 let { isadd } = storeToRefs(equipment);
-let { types=null, parents=null, Protocols=null,baseNames=null, Brands=null,Models=null, itemNo = null } = {...props.baseInfo};
+let {
+  types = null,
+  parents = null,
+  Protocols = null,
+  baseNames = null,
+  Brands = null,
+  Models = null,
+  itemNo = null,
+} = { ...props.baseInfo };
 const schemas: FormSchema[] = [
   {
     field: "type",
@@ -22,7 +30,7 @@ const schemas: FormSchema[] = [
     },
     componentProps: {
       clearable: true,
-      options:types,
+      options: types,
       onUpdateValue: (e: any) => {
         console.log(e);
       },
@@ -33,14 +41,12 @@ const schemas: FormSchema[] = [
     field: "itemNo",
     component: "NInput",
     label: "设备编号",
-    defaultValue: equipment.isadd  ? itemNo : itemInfo.itemNo,
+    defaultValue: equipment.isadd ? itemNo : itemInfo.itemNo,
     giProps: {
       // span: 1,
     },
-    // value:itemNo.value,
     componentProps: {
       disabled: true,
-      // value:itemNo.value,
     },
   },
   {
@@ -79,7 +85,7 @@ const schemas: FormSchema[] = [
     field: "freq",
     component: "NInput",
     label: "采集步长",
-    defaultValue: isadd.value  ? null : itemInfo.freq.toString(),
+    defaultValue: isadd.value ? null : itemInfo.freq.toString(),
     componentProps: {
       clearable: true,
     },
@@ -135,7 +141,7 @@ const schemas: FormSchema[] = [
     giProps: {
       //span: 24,
     },
-    defaultValue: isadd.value  ? undefined : itemInfo.createTime,
+    defaultValue: isadd.value ? undefined : itemInfo.createTime,
     componentProps: {
       type: "datetime",
       valueFormat: "yyyy-MM-dd HH:mm:ss",
@@ -150,7 +156,7 @@ const schemas: FormSchema[] = [
     field: "orgId",
     component: "NSelect",
     label: "设备所属场站",
-    defaultValue: isadd.value  ? null : itemInfo.orgId.toString(),
+    defaultValue: isadd.value ? null : itemInfo.orgId.toString(),
     componentProps: {
       clearable: true,
       options: baseNames,
@@ -163,7 +169,7 @@ const schemas: FormSchema[] = [
     field: "slave",
     component: "NInput",
     label: "从站号",
-    defaultValue: isadd.value  ? null : itemInfo.slave.toString(),
+    defaultValue: isadd.value ? null : itemInfo.slave.toString(),
     componentProps: {
       clearable: true,
     },

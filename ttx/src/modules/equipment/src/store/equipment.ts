@@ -1,8 +1,6 @@
 import { defineStore } from "pinia";
-import {
-    getData
-    // @ts-ignore
-} from "/@/api";
+// @ts-ignore
+import { getData } from "/@/api";
 export const equipmentStore = defineStore({
     id: 'equipment',
     state: () => ({
