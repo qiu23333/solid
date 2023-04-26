@@ -1,5 +1,5 @@
 <template>
-  <BasicForm @register="register" @submit="handleSubmit" />
+  <BasicForm @register="register"/>
 </template>
 <script setup lang="ts">
 // @ts-ignore
@@ -185,11 +185,6 @@ const [register, { submit, getFieldsValue }] = useForm({
   class: "mt-10 w-auto m-auto mr-14",
   schemas,
 });
-function handleSubmit(values: Recordable) {
-  console.log(values);
-  // message.success(JSON.stringify(values));
-  // if (values != null) return true;
-}
 defineExpose({ submit, getFieldsValue });
 </script>
 <style scoped></style>
